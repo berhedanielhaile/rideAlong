@@ -106,8 +106,6 @@ app.get('/bundle.js.map', (req, res, next) =>
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/trip', tripRouter);
 
-// Handle favicon requests cleanly
-app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => res.status(204).end());
 
 // 3) ERROR HANDLING

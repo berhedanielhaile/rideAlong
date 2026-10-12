@@ -1537,6 +1537,24 @@ header.site-header {
   color: #0b1220;
 }
 
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.brand-word {
+  display: inline-flex;
+  align-items: baseline;
+  letter-spacing: -0.045em;
+}
+
+.brand-along {
+  color: #0d9488;
+}
+
 .brand-mark {
   width: 32px;
   height: 32px;
@@ -2029,6 +2047,14 @@ footer.site-footer {
   color: rgba(255, 255, 255, 0.68);
   padding: 4rem 1.5rem 2rem;
   font-size: 0.875rem;
+}
+.site-footer .brand,
+footer.site-footer .brand {
+  color: #ffffff;
+}
+.site-footer .brand-along,
+footer.site-footer .brand-along {
+  color: #2dd4bf;
 }
 .site-footer h4,
 footer.site-footer h4 {

@@ -1,8 +1,10 @@
 header.site-header
   .header-container
     a.brand(href=user ? (user.role === 'driver' ? '/driver' : '/dashboard') : '/')
-      span.brand-mark rA
-      | rideAlong
+      img.brand-logo(src='/img/logo.svg' width='36' height='36' alt='')
+      span.brand-word
+        span.brand-ride ride
+        span.brand-along Along
     button.nav-toggle(type='button' aria-label='Open menu' aria-expanded='false')
       span
     .nav-panel
