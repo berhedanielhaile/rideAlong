@@ -1,0 +1,64 @@
+extends base
+block content 
+  main.app-shell
+    .page
+      .page-head
+        div
+          p.page-kicker= greeting
+          h1 Welcome back, #{firstName}
+          p Your next ride is ready whenever you are.
+        .header-actions
+          a.btn.btn-primary(href='/booking') Book a ride
+          button.btn.btn-secondary(type='button' data-toast='Scheduling will connect to the backend next.') Schedule
+      .stats-grid
+        article.metric-card
+          .label Total rides
+          .value= stats.totalRides
+          .hint= stats.ridesThisMonth + ' this month'
+        article.metric-card
+          .label Saved
+          .value= stats.saved
+          .hint From offers used
+        article.metric-card
+          .label Your rating
+          .value= stats.rating
+          .hint= stats.ratingHint
+        article.metric-card
+          .label Completed
+          .value= stats.completedRides
+          .hint= `${stats.totalDistanceKm} km total`
+      .split-2
+        section.surface
+          .surface-head
+            h3 Recent rides
+            a(href='/history') View all
+          if recentRides.length
+            each ride in recentRides
+              a.list-row(href=`/tracking/${ride.id}`)
+                div
+                  h4= ride.title
+                  p= ride.when
+                .text-right
+                  .money= ride.fare
+                  p= ride.rating
+          else
+            .empty
+              h3 No rides yet
+              p Book your first trip and it will show up here.
+        aside
+          .balance-card
+            .label Wallet balance
+            .amount= walletBalance
+            a.btn.btn-light.btn-block(href='/wallet') Add funds
+          section.surface
+            .surface-head
+              h3 Offers
+            .surface-body
+              .promo
+                h4 First ride 50% off
+                p For new rider accounts
+                button.promo-code(type='button' data-copy-code='RIDE50') RIDE50
+              .promo
+                h4 Weekend 20% off
+                p Saturday and Sunday trips
+                button.promo-code(type='button' data-copy-code='WEEKEND20') WEEKEND20

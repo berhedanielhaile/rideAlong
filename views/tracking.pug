@@ -1,0 +1,70 @@
+extends base
+block content
+  main.split-map(data-trip-id=trip._id data-trip-status=trip.status)
+    script#trip-boot(type='application/json')!= tripBoot
+    section.map-canvas(aria-label='Live route')
+      #map(role='application' aria-label='Map showing your trip route and driver')
+      .map-caption(data-trip-route aria-live='polite')
+        strong= `${trip.pickup.adress || 'Pickup'} to ${trip.dropoff.adress || 'Drop-off'}`
+    aside.side-panel
+      .side-panel__head
+        h2 Your trip
+        span.status-pill(data-trip-status-label)= trip.status
+      p.booking-status(data-tracking-message aria-live='polite') Trip status updates automatically.
+      .side-panel__body
+        .driver-hero
+          .flex.gap-md.flex-center-y
+            span.avatar(data-driver-avatar)= driver.name.split(' ').map((part) => part.charAt(0)).slice(0, 2).join('').toUpperCase()
+            div
+              h3(data-driver-name)= driver.name
+              p
+                span(data-driver-rating)= driver.driverProfile && driver.driverProfile.rating != null ? Number(driver.driverProfile.rating).toFixed(1) : 'No rating'
+                |  ·
+                span(data-vehicle-model)= trip.vehicle_snapshot.model
+                |  ·
+                span(data-vehicle-plate)= trip.vehicle_snapshot.plate_number
+        .action-row
+          button.ghost-action(type='button' disabled) Call
+          button.ghost-action(type='button' disabled) Chat
+          button.ghost-action(type='button' disabled) Help
+        .timeline
+          .timeline-item(data-trip-stage='requested')
+            span.bullet
+            div
+              h4 Ride requested
+              p Waiting for driver
+          .timeline-item(data-trip-stage='accepted')
+            span.bullet
+            div
+              h4 Driver accepted
+              p Driver is preparing to come to pickup
+          .timeline-item(data-trip-stage='arrived')
+            span.bullet
+            div
+              h4 Driver arrived
+              p Pickup: #{trip.pickup.adress || 'Address not provided'}
+          .timeline-item(data-trip-stage='picked_up')
+            span.bullet
+            div
+              h4 Ride started
+              p Drop-off: #{trip.dropoff.adress || 'Address not provided'}
+          .timeline-item(data-trip-stage='completed')
+            span.bullet
+            div
+              h4 Ride completed
+              p Thank you for riding with us
+        .fare-box
+          .fare-line
+            span(data-trip-distance-label)= distanceCaption
+            span(data-trip-distance)= distanceLabel
+          .fare-line
+            span Duration
+            span(data-trip-duration)= durationLabel
+          .fare-line
+            span Waiting
+            span(data-trip-waiting)= waitingLabel
+          .fare-line
+            span(data-trip-fare-label)= fareCaption
+            span(data-trip-fare)= fareLabel
+      .side-panel__foot
+        a.btn.btn-secondary.btn-block(href='/dashboard') Back to dashboard

@@ -1,0 +1,37 @@
+header.site-header
+  .header-container
+    a.brand(href=user ? (user.role === 'driver' ? '/driver' : '/dashboard') : '/')
+      span.brand-mark rA
+      | rideAlong
+    button.nav-toggle(type='button' aria-label='Open menu' aria-expanded='false')
+      span
+    .nav-panel
+      if user
+        if user.role === 'driver'
+          nav.site-nav
+            a(href='/driver' class={active: title === 'Driver home'}) Home
+            a(href='/earnings' class={active: title === 'Earnings'}) Earnings
+            a(href='/history' class={active: title === 'Ride history'}) History
+          .header-actions
+            .online-control
+              span Go online
+              button.toggle-switch(type='button' data-driver-toggle aria-label='Toggle online status' class=user.driverProfile && user.driverProfile.status === 'available' ? 'active' : undefined)
+            a.btn.btn-ghost.btn-sm(href='/profile' class={active: title === 'Profile'}) Profile
+            a#logoutBtn.btn.btn-outline.btn-sm Sign out
+        else
+          nav.site-nav
+            a(href='/dashboard' class={active: title === 'Dashboard'}) Home
+            a(href='/booking' class={active: title === 'Book your ride'}) Book
+            a(href='/history' class={active: title === 'Ride history'}) History
+            a(href='/wallet' class={active: title === 'Wallet'}) Wallet
+          .header-actions
+            a.btn.btn-ghost.btn-sm(href='/profile' class={active: title === 'Profile'}) Profile
+            a#logoutBtn.btn.btn-outline.btn-sm Sign out
+      else
+        nav.site-nav
+          a(href='/#features') Features
+          a(href='/#how-it-works') How it works
+          a(href='/register') Drive with us
+        .header-actions
+          a.btn.btn-ghost.btn-sm(href='/login') Sign in
+          a.btn.btn-primary.btn-sm(href='/register') Get started

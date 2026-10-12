@@ -1,0 +1,93 @@
+extends base
+block content
+  main.app-shell
+    .page
+      .profile-hero
+        span.avatar.lg= initials
+        div
+          h1= user.name
+          p.text-secondary= `${user.email} · ${user.phoneNumber || ''}`
+          if memberSince
+            p.text-secondary Member since #{memberSince}
+        button.btn.btn-primary(type='button' data-edit-profile) Edit profile
+      section.surface(data-tabs)
+        .tab-bar
+          button.tab-btn.active(type='button' data-tab='personal') Personal
+          button.tab-btn(type='button' data-tab='payment') Payment
+          button.tab-btn(type='button' data-tab='places') Saved places
+          if user.role === 'driver'
+            button.tab-btn(type='button' data-tab='driver') Driver
+        form.surface-body.tabs-panel.active(data-panel='personal' data-profile-form)
+          .form-grid
+            .form-group
+              label(for='fullName') Full name
+              input#fullName(name='name' type='text' value=user.name disabled required)
+            .form-group
+              label(for='email') Email
+              input#email(name='email' type='email' value=user.email disabled required)
+          .form-group
+            label(for='phone') Phone
+            input#phone(name='phoneNumber' type='tel' value=user.phoneNumber disabled required)
+          button.btn.btn-primary(type='submit') Save changes
+        .surface-body.tabs-panel(data-panel='payment')
+          each method in ['cash', 'wallet', 'mobile_money', 'card']
+            .pay-row(class=defaultPayment === method ? 'active' : undefined)
+              div
+                h4= method === 'mobile_money' ? 'Telebirr' : method.charAt(0).toUpperCase() + method.slice(1)
+                p= defaultPayment === method ? 'Default' : 'Available'
+              if defaultPayment === method
+                span.status-pill Default
+              else
+                button.btn.btn-secondary.btn-sm(type='button' data-set-payment=method) Set default
+        .surface-body.tabs-panel(data-panel='places')
+          if savedPlaces.length
+            each place in savedPlaces
+              .place-row
+                div
+                  h4= place.name
+                  p= place.adress
+                .header-actions
+                  button.btn.btn-ghost.btn-sm(type='button' data-remove-place=place._id) Remove
+          else
+            .empty
+              h3 No saved places
+              p Add home or work so booking is faster.
+          form.mt-md(data-add-place)
+            .form-grid
+              .form-group
+                label(for='placeName') Name
+                input#placeName(name='name' type='text' placeholder='Home' required)
+              .form-group
+                label(for='placeAddress') Address
+                input#placeAddress(name='adress' type='text' placeholder='Bole, Addis Ababa' required)
+            button.btn.btn-primary.mt-md(type='submit') Add place
+        if user.role === 'driver'
+          .surface-body.tabs-panel(data-panel='driver')
+            .kv
+              span Status
+              strong= driverStatus
+            .kv
+              span Rating
+              strong= driverRating
+            .kv
+              span Total trips
+              strong= driverTrips
+            .form-group.mt-lg
+              label(for='license') License number
+              input#license(type='text' value=license disabled)
+            .surface
+              .surface-body
+                h4 Active vehicle
+                .form-grid
+                  div
+                    small.text-secondary Model
+                    p= vehicle.model || '—'
+                  div
+                    small.text-secondary Year
+                    p= vehicle.year || '—'
+                  div
+                    small.text-secondary Plate
+                    p= vehicle.plate_number || '—'
+                  div
+                    small.text-secondary Color
+                    p= vehicle.color || '—'

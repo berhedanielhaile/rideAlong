@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in — rideAlong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="auth-body" data-role="passenger">
+    <header class="site-header">
+      <div class="header-container">
+        <a class="brand" href="index.html"><span class="brand-mark">rA</span>rideAlong</a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+        <div class="nav-panel">
+          <nav class="site-nav">
+            <a href="index.html#features">Features</a>
+            <a href="index.html#how-it-works">How it works</a>
+            <a href="login.html#register">Drive with us</a>
+          </nav>
+          <div class="header-actions">
+            <a class="btn btn-ghost btn-sm" href="login.html">Sign in</a>
+            <a class="btn btn-primary btn-sm" href="login.html#register">Get started</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="auth-stage">
+      <div class="auth-backdrop" aria-hidden="true" inert>
+        <div class="auth-backdrop__scene">
+          <section class="marketing-hero">
+            <div class="marketing-hero__inner">
+              <div>
+                <h1>Get across Addis without the guesswork.</h1>
+                <p>Book a verified driver, see the fare before you ride, and pay with wallet, card, or Telebirr.</p>
+                <div class="hero-actions">
+                  <span class="btn btn-light btn-lg">Book a ride</span>
+                  <span class="btn btn-outline-light btn-lg">Drive with us</span>
+                </div>
+              </div>
+              <div class="hero-card">
+                <h3>Where to?</h3>
+                <div class="location-stack">
+                  <label class="location-field">
+                    <span class="dot"></span>
+                    <input type="text" value="Bole, Addis Ababa" tabindex="-1" readonly />
+                  </label>
+                  <label class="location-field">
+                    <span class="dot dest"></span>
+                    <input type="text" value="Kazanchis" tabindex="-1" readonly />
+                  </label>
+                </div>
+                <span class="btn btn-primary btn-block">See prices</span>
+              </div>
+            </div>
+          </section>
+          <section class="stats-band">
+            <div class="stats-band__grid">
+              <div>
+                <div class="stat-figure">50K+</div>
+                <div class="stat-caption">Active riders</div>
+              </div>
+              <div>
+                <div class="stat-figure">15K+</div>
+                <div class="stat-caption">Verified drivers</div>
+              </div>
+              <div>
+                <div class="stat-figure">500K+</div>
+                <div class="stat-caption">Completed rides</div>
+              </div>
+              <div>
+                <div class="stat-figure">4.9</div>
+                <div class="stat-caption">Average rating</div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <section class="auth-card" data-tabs>
+        <div class="auth-toggle" role="tablist" aria-label="Account access">
+          <button class="tab-btn active" type="button" role="tab" aria-selected="true" data-tab="login">Sign in</button>
+          <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="register">
+            Create account
+          </button>
+        </div>
+
+        <div class="auth-panel tabs-panel active" data-panel="login" role="tabpanel">
+          <div class="auth-card__intro">
+            <h1>Welcome back</h1>
+            <p>Sign in to book rides, track trips, and manage your wallet.</p>
+          </div>
+          <form class="auth-form" onsubmit="RideAlong.handleLogin(event)">
+            <div class="form-group">
+              <label for="loginEmail">Email</label>
+              <input
+                id="loginEmail"
+                type="email"
+                name="email"
+                placeholder="you@email.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <div class="password-field">
+                <input
+                  id="loginPassword"
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                />
+                <button class="password-toggle" type="button" data-toggle-password="loginPassword">Show</button>
+              </div>
+            </div>
+            <div class="auth-form__options">
+              <label class="auth-remember" for="remember">
+                <input id="remember" type="checkbox" name="remember" /> Remember me
+              </label>
+              <a href="#">Forgot password?</a>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Continue</button>
+          </form>
+        </div>
+
+        <div class="auth-panel tabs-panel" data-panel="register" role="tabpanel">
+          <div class="auth-card__intro">
+            <h1>Create your account</h1>
+            <p>A few details and you can request a ride in minutes.</p>
+          </div>
+          <form class="auth-form" onsubmit="RideAlong.handleRegister(event)">
+            <div class="form-group">
+              <label for="name">Full name</label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                placeholder="Sara Bekele"
+                required
+                maxlength="30"
+                autocomplete="name"
+              />
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="phoneNumber">Phone</label>
+                <input
+                  id="phoneNumber"
+                  type="tel"
+                  name="phoneNumber"
+                  placeholder="+251 91 234 5678"
+                  required
+                  autocomplete="tel"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" placeholder="you@email.com" required autocomplete="email" />
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-field">
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Min. 6 characters"
+                    minlength="6"
+                    required
+                    autocomplete="new-password"
+                  />
+                  <button class="password-toggle" type="button" data-toggle-password="password">Show</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="passwordConfirm">Confirm password</label>
+                <div class="password-field">
+                  <input
+                    id="passwordConfirm"
+                    type="password"
+                    name="passwordConfirm"
+                    placeholder="Repeat password"
+                    minlength="6"
+                    required
+                    autocomplete="new-password"
+                  />
+                  <button class="password-toggle" type="button" data-toggle-password="passwordConfirm">Show</button>
+                </div>
+              </div>
+            </div>
+            <div class="check-row">
+              <input id="terms" type="checkbox" name="terms" required />
+              <label for="terms">I agree to the Terms of Service and Privacy Policy.</label>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Create account</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" style="color: #fff"><span class="brand-mark">rA</span>rideAlong</a>
+          <p>Safe, metered rides across Addis Ababa. Built for riders and drivers who want less friction.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="index.html#features">About</a></li>
+            <li><a href="index.html#how-it-works">How it works</a></li>
+            <li><a href="login.html#register">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="login.html">Help center</a></li>
+            <li><a href="login.html">Safety</a></li>
+            <li><a href="login.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="login.html">Privacy</a></li>
+            <li><a href="login.html">Terms</a></li>
+            <li><a href="login.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 rideAlong. Addis Ababa, Ethiopia</span>
+        <span>ETB pricing &middot; Telebirr &middot; CBE</span>
+      </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+      const tabGroup = document.querySelector('[data-tabs]');
+      const tabButtons = tabGroup.querySelectorAll('[data-tab]');
+      const tabPanels = tabGroup.querySelectorAll('[data-panel]');
+
+      function showAuthTab(name) {
+        tabButtons.forEach((button) => {
+          const on = button.dataset.tab === name;
+          button.classList.toggle('active', on);
+          button.setAttribute('aria-selected', String(on));
+        });
+        tabPanels.forEach((panel) => panel.classList.toggle('active', panel.dataset.panel === name));
+        if (name === 'register') history.replaceState(null, '', '#register');
+        else history.replaceState(null, '', 'login.html');
+      }
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => showAuthTab(button.dataset.tab));
+      });
+
+      if (location.hash === '#register') showAuthTab('register');
+
+      document.querySelectorAll('[data-toggle-password]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const input = document.getElementById(btn.getAttribute('data-toggle-password'));
+          if (!input) return;
+          const hidden = input.type === 'password';
+          input.type = hidden ? 'text' : 'password';
+          btn.textContent = hidden ? 'Hide' : 'Show';
+        });
+      });
+
+      const navToggle = document.querySelector('.nav-toggle');
+      const navPanel = document.querySelector('.nav-panel');
+      if (navToggle && navPanel) {
+        navToggle.addEventListener('click', () => {
+          const open = navPanel.classList.toggle('open');
+          navToggle.classList.toggle('open', open);
+          navToggle.setAttribute('aria-expanded', String(open));
+        });
+      }
+    </script>
+  </body>
+</html>

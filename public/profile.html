@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — rideAlong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <a class="brand" href="dashboard.html"><span class="brand-mark">rA</span>rideAlong</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      <div class="nav-panel">
+        <nav class="site-nav">
+          <a href="dashboard.html">Home</a>
+          <a href="booking.html">Book</a>
+          <a href="history.html">History</a>
+          <a href="wallet.html">Wallet</a>
+        </nav>
+        <div class="header-actions">
+          <a class="btn btn-ghost btn-sm" href="profile.html">Profile</a>
+          <a class="btn btn-outline btn-sm" href="login.html">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <div class="page">
+      <div class="profile-hero">
+        <span class="avatar lg">SB</span>
+        <div>
+          <h1>Sara Bekele</h1>
+          <p class="text-secondary">sara.bekele@email.com · +251 91 234 5678</p>
+          <p class="text-secondary">Member since March 2024</p>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="document.querySelectorAll('#personal input').forEach(i=>i.disabled=!i.disabled); RideAlong.toast('You can now edit your details.');">Edit profile</button>
+      </div>
+
+      <section class="surface" data-tabs>
+        <div class="tab-bar">
+          <button class="tab-btn active" type="button" data-tab="personal">Personal</button>
+          <button class="tab-btn" type="button" data-tab="payment">Payment</button>
+          <button class="tab-btn" type="button" data-tab="places">Saved places</button>
+          <button class="tab-btn" type="button" data-tab="driver">Driver</button>
+        </div>
+
+        <div class="surface-body tabs-panel active" data-panel="personal" id="personal">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fullName">Full name</label>
+              <input id="fullName" type="text" value="Sara Bekele" disabled>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" type="email" value="sara.bekele@email.com" disabled>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" value="+251912345678" disabled>
+          </div>
+          <div class="check-row">
+            <input id="twofa" type="checkbox" checked>
+            <label for="twofa">Two-factor authentication</label>
+          </div>
+          <button class="btn btn-primary" type="button" onclick="RideAlong.toast('Profile saved.', 'success')">Save changes</button>
+        </div>
+
+        <div class="surface-body tabs-panel" data-panel="payment">
+          <div class="pay-row active">
+            <div><h4>Visa</h4><p>•••• 4242 · Default</p></div>
+            <span class="status-pill">Default</span>
+          </div>
+          <div class="pay-row">
+            <div><h4>Telebirr</h4><p>+251 91 234 5678</p></div>
+            <button class="btn btn-secondary btn-sm" type="button">Set default</button>
+          </div>
+          <div class="pay-row">
+            <div><h4>CBE Bank</h4><p>Commercial Bank of Ethiopia</p></div>
+            <button class="btn btn-secondary btn-sm" type="button">Set default</button>
+          </div>
+          <button class="btn btn-primary mt-md" type="button" onclick="RideAlong.toast('Payment methods will use the billing API.')">Add method</button>
+        </div>
+
+        <div class="surface-body tabs-panel" data-panel="places">
+          <div class="place-row">
+            <div><h4>Home</h4><p>123 Main Street, Bole, Addis Ababa</p></div>
+            <div class="header-actions"><button class="btn btn-secondary btn-sm" type="button">Edit</button><button class="btn btn-ghost btn-sm" type="button">Remove</button></div>
+          </div>
+          <div class="place-row">
+            <div><h4>Work</h4><p>456 Business Ave, Kazanchis, Addis Ababa</p></div>
+            <div class="header-actions"><button class="btn btn-secondary btn-sm" type="button">Edit</button><button class="btn btn-ghost btn-sm" type="button">Remove</button></div>
+          </div>
+          <button class="btn btn-primary mt-md" type="button">Add place</button>
+        </div>
+
+        <div class="surface-body tabs-panel" data-panel="driver">
+          <div class="kv"><span>Status</span><strong>Online</strong></div>
+          <div class="kv"><span>Rating</span><strong>4.9</strong></div>
+          <div class="kv"><span>Total trips</span><strong>320</strong></div>
+          <div class="form-group mt-lg">
+            <label for="license">License number</label>
+            <input id="license" type="text" value="ET-DR-123456" disabled>
+          </div>
+          <div class="surface" style="border-style:dashed">
+            <div class="surface-body">
+              <h4>Active vehicle</h4>
+              <div class="form-grid">
+                <div><small class="text-secondary">Model</small><p>Toyota Corolla</p></div>
+                <div><small class="text-secondary">Year</small><p>2022</p></div>
+                <div><small class="text-secondary">Plate</small><p>AA 123 DEF</p></div>
+                <div><small class="text-secondary">Color</small><p>Silver</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="js/app.js"></script>
+</body>
+</html>

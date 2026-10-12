@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>rideAlong — Reliable rides in Addis Ababa</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-container">
+        <a class="brand" href="index.html"><span class="brand-mark">rA</span>rideAlong</a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+        <div class="nav-panel">
+          <nav class="site-nav">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="login.html">Drivers</a>
+          </nav>
+          <div class="header-actions">
+            <a class="btn btn-ghost btn-sm" href="login.html">Sign in</a>
+            <a class="btn btn-primary btn-sm" href="register.html">Get started</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="marketing-hero">
+      <div class="marketing-hero__inner">
+        <div>
+          <h1>Get across Addis without the guesswork.</h1>
+          <p>Book a verified driver, see the fare before you ride, and pay with wallet, card, or Telebirr.</p>
+          <div class="hero-actions">
+            <a class="btn btn-light btn-lg" href="register.html">Book a ride</a>
+            <a class="btn btn-outline-light btn-lg" href="register.html">Drive with us</a>
+          </div>
+        </div>
+        <form class="hero-card" onsubmit="RideAlong.startRideFromHome(event)">
+          <h3>Where to?</h3>
+          <div class="location-stack">
+            <label class="location-field">
+              <span class="dot"></span>
+              <input type="text" name="pickup" placeholder="Pickup location" value="Bole, Addis Ababa" />
+            </label>
+            <label class="location-field">
+              <span class="dot dest"></span>
+              <input type="text" name="destination" placeholder="Destination" value="Kazanchis" />
+            </label>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">See prices</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="stats-band">
+      <div class="stats-band__grid">
+        <div>
+          <div class="stat-figure">50K+</div>
+          <div class="stat-caption">Active riders</div>
+        </div>
+        <div>
+          <div class="stat-figure">15K+</div>
+          <div class="stat-caption">Verified drivers</div>
+        </div>
+        <div>
+          <div class="stat-figure">500K+</div>
+          <div class="stat-caption">Completed rides</div>
+        </div>
+        <div>
+          <div class="stat-figure">4.9</div>
+          <div class="stat-caption">Average rating</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section-block" data-tabs>
+      <div class="section-intro">
+        <h2>Built for everyday city travel</h2>
+        <p>Clear pricing, live tracking, and support that actually answers.</p>
+      </div>
+      <div class="text-center">
+        <div class="segmented">
+          <button class="active" type="button" data-tab="riders">For riders</button>
+          <button type="button" data-tab="drivers">For drivers</button>
+        </div>
+      </div>
+      <div class="tabs-panel active" data-panel="riders">
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">01</div>
+            <h3>Minutes, not maybe</h3>
+            <p>Nearby drivers are matched instantly so you are not waiting on the curb.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">02</div>
+            <h3>Fare before you go</h3>
+            <p>See a full estimate before you confirm. No surprise add-ons at drop-off.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">03</div>
+            <h3>Live tracking</h3>
+            <p>Share your trip with family and follow the car on the map in real time.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">04</div>
+            <h3>Local payments</h3>
+            <p>Wallet, Visa, Telebirr, and CBE — use what you already have.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">05</div>
+            <h3>Verified drivers</h3>
+            <p>Licenses, plates, and vehicle details are checked before anyone goes online.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">06</div>
+            <h3>Rewards that add up</h3>
+            <p>Earn points on every completed ride and redeem them on later trips.</p>
+          </article>
+        </div>
+      </div>
+      <div class="tabs-panel" data-panel="drivers">
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">01</div>
+            <h3>Keep more</h3>
+            <p>Transparent commission and weekly payouts you can track in one place.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">02</div>
+            <h3>Your hours</h3>
+            <p>Go online when it works for you. No minimum shift requirement.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">03</div>
+            <h3>Live earnings</h3>
+            <p>See fare, commission, and net pay after every trip.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">04</div>
+            <h3>Driver support</h3>
+            <p>Get help with trips, documents, and payouts without leaving the app.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">05</div>
+            <h3>Protection</h3>
+            <p>Coverage on accepted trips plus tools to report unsafe situations.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">06</div>
+            <h3>Bonuses</h3>
+            <p>Peak-hour boosts and referral rewards when the city is busiest.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="section-block alt" data-tabs>
+      <div class="section-inner">
+        <div class="section-intro">
+          <h2>Three steps. Then you are moving.</h2>
+          <p>The same simple flow for riders and drivers.</p>
+        </div>
+        <div class="text-center">
+          <div class="segmented">
+            <button class="active" type="button" data-tab="rider-steps">Rider</button>
+            <button type="button" data-tab="driver-steps">Driver</button>
+          </div>
+        </div>
+        <div class="tabs-panel active" data-panel="rider-steps">
+          <div class="step-grid">
+            <article class="step-card">
+              <div class="step-index">1</div>
+              <h3>Create an account</h3>
+              <p>Sign up with your phone and email. It takes about a minute.</p>
+            </article>
+            <article class="step-card">
+              <div class="step-index">2</div>
+              <h3>Set pickup and drop-off</h3>
+              <p>Choose a ride type, review the fare, and confirm.</p>
+            </article>
+            <article class="step-card">
+              <div class="step-index">3</div>
+              <h3>Ride and pay</h3>
+              <p>Meet your driver, track the trip, and settle from your wallet.</p>
+            </article>
+          </div>
+        </div>
+        <div class="tabs-panel" data-panel="driver-steps">
+          <div class="step-grid">
+            <article class="step-card">
+              <div class="step-index">1</div>
+              <h3>Apply</h3>
+              <p>Add your license, plate, and meter details for review.</p>
+            </article>
+            <article class="step-card">
+              <div class="step-index">2</div>
+              <h3>Get approved</h3>
+              <p>We verify documents and activate your driver profile.</p>
+            </article>
+            <article class="step-card">
+              <div class="step-index">3</div>
+              <h3>Go online</h3>
+              <p>Accept nearby requests and start earning the same day.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" style="color: #fff"><span class="brand-mark">rA</span>rideAlong</a>
+          <p>Safe, metered rides across Addis Ababa. Built for riders and drivers who want less friction.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#features">About</a></li>
+            <li><a href="#how-it-works">How it works</a></li>
+            <li><a href="register.html">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="login.html">Help center</a></li>
+            <li><a href="login.html">Safety</a></li>
+            <li><a href="login.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="login.html">Privacy</a></li>
+            <li><a href="login.html">Terms</a></li>
+            <li><a href="login.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 rideAlong. Addis Ababa, Ethiopia</span>
+        <span>ETB pricing · Telebirr · CBE</span>
+      </div>
+    </footer>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+extends base
+
+block content
+  - const tab = authTab === 'register' ? 'register' : 'login'
+  main.auth-stage
+    .auth-backdrop(aria-hidden='true' inert='')
+      .auth-backdrop__scene
+        section.marketing-hero
+          .marketing-hero__inner
+            div
+              h1 Get across Addis without the guesswork.
+              p Book a verified driver, see the fare before you ride, and pay with wallet, card, or Telebirr.
+              .hero-actions
+                span.btn.btn-light.btn-lg Book a ride
+                span.btn.btn-outline-light.btn-lg Drive with us
+            .hero-card
+              h3 Where to?
+              .location-stack
+                label.location-field
+                  span.dot
+                  input(type='text' value='Bole, Addis Ababa' tabindex='-1' readonly='')
+                label.location-field
+                  span.dot.dest
+                  input(type='text' value='Kazanchis' tabindex='-1' readonly='')
+              span.btn.btn-primary.btn-block See prices
+        section.stats-band
+          .stats-band__grid
+            div
+              .stat-figure 50K+
+              .stat-caption Active riders
+            div
+              .stat-figure 15K+
+              .stat-caption Verified drivers
+            div
+              .stat-figure 500K+
+              .stat-caption Completed rides
+            div
+              .stat-figure 4.9
+              .stat-caption Average rating
+    section.auth-card(data-tabs)
+      .auth-toggle(role='tablist' aria-label='Account access')
+        button.tab-btn(type='button' role='tab' class={active: tab === 'login'} aria-selected=tab === 'login' data-tab='login') Sign in
+        button.tab-btn(type='button' role='tab' class={active: tab === 'register'} aria-selected=tab === 'register' data-tab='register') Create account
+      .auth-panel.tabs-panel(class={active: tab === 'login'} data-panel='login' role='tabpanel')
+        .auth-card__intro
+          h1 Welcome back
+          p Sign in to book rides, track trips, and manage your wallet.
+        form.auth-form(data-login-form)
+          .form-group
+            label(for='loginEmail') Email
+            input#loginEmail(type='email' name='email' placeholder='you@email.com' autocomplete='email' required)
+          .form-group
+            label(for='loginPassword') Password
+            .password-field
+              input#loginPassword(type='password' name='password' placeholder='Enter your password' autocomplete='current-password' required)
+              button.password-toggle(type='button' data-toggle-password='loginPassword') Show
+          .auth-form__options
+            label.auth-remember(for='remember')
+              input#remember(type='checkbox' name='remember')
+              |  Remember me
+            a(href='#') Forgot password?
+          button.btn.btn-primary.btn-block(type='submit') Continue
+      .auth-panel.tabs-panel(class={active: tab === 'register'} data-panel='register' role='tabpanel')
+        .auth-card__intro
+          h1 Create your account
+          p A few details and you can request a ride in minutes.
+        form.auth-form(data-signup-form)
+          .form-group
+            label(for='name') Full name
+            input#name(type='text' name='name' placeholder='Sara Bekele' required maxlength='30' autocomplete='name')
+          .form-grid
+            .form-group
+              label(for='phoneNumber') Phone
+              input#phoneNumber(type='tel' name='phoneNumber' placeholder='+251 91 234 5678' required autocomplete='tel')
+            .form-group
+              label(for='email') Email
+              input#email(type='email' name='email' placeholder='you@email.com' required autocomplete='email')
+          .form-grid
+            .form-group
+              label(for='password') Password
+              .password-field
+                input#password(type='password' name='password' placeholder='Min. 6 characters' minlength='6' required autocomplete='new-password')
+                button.password-toggle(type='button' data-toggle-password='password') Show
+            .form-group
+              label(for='passwordConfirm') Confirm password
+              .password-field
+                input#passwordConfirm(type='password' name='passwordConfirm' placeholder='Repeat password' minlength='6' required autocomplete='new-password')
+                button.password-toggle(type='button' data-toggle-password='passwordConfirm') Show
+          .check-row
+            input#terms(type='checkbox' name='terms' required)
+            label(for='terms') I agree to the Terms of Service and Privacy Policy.
+          button.btn.btn-primary.btn-block(type='submit') Create account

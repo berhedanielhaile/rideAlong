@@ -1,0 +1,93 @@
+// ============================================
+// METER-TAXI PREMIUM - MAIN SCSS FILE
+// Imports all SCSS modules
+// ============================================
+
+// 1. Configuration & Variables
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// 2. Base Styles
+@use 'base';
+
+// 3. Components
+@use 'components';
+
+// 4. Animations
+@use 'animations';
+
+// 5. Layout & Pages
+@use 'layout';
+@use 'pages';
+@use 'login';
+
+// ============================================
+// CUSTOM CONFIGURATIONS
+// ============================================
+
+// Smooth scrolling
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: $bg-app;
+}
+
+// Main content wrapper
+main {
+  min-height: calc(100vh - $header-height);
+}
+
+// ============================================
+// DARK MODE (Optional)
+// ============================================
+
+@media (prefers-color-scheme: dark) {
+  // Uncomment to enable dark mode support
+  // body {
+  //   background-color: #1a1a1a;
+  //   color: #f5f5f5;
+  // }
+}
+
+// ============================================
+// PRINT STYLES
+// ============================================
+
+@media print {
+  * {
+    box-shadow: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  table {
+    page-break-inside: avoid;
+  }
+}

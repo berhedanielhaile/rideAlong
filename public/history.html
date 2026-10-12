@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ride history — rideAlong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <a class="brand" href="dashboard.html"><span class="brand-mark">rA</span>rideAlong</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      <div class="nav-panel">
+        <nav class="site-nav">
+          <a href="dashboard.html">Home</a>
+          <a href="booking.html">Book</a>
+          <a class="active" href="history.html">History</a>
+          <a href="wallet.html">Wallet</a>
+        </nav>
+        <div class="header-actions">
+          <a class="btn btn-ghost btn-sm" href="profile.html">Profile</a>
+          <a class="btn btn-outline btn-sm" href="login.html">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1>Ride history</h1>
+          <p>Search and filter every completed trip.</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="metric-card"><div class="label">Trips</div><div class="value">34</div></article>
+        <article class="metric-card"><div class="label">Distance</div><div class="value">245 km</div></article>
+        <article class="metric-card"><div class="label">Spent</div><div class="value">ETB 4,250</div></article>
+        <article class="metric-card"><div class="label">Avg rating</div><div class="value">4.9</div></article>
+      </div>
+
+      <div class="filter-bar">
+        <div class="chip-row">
+          <button class="chip active" type="button">All</button>
+          <button class="chip" type="button">This week</button>
+          <button class="chip" type="button">This month</button>
+        </div>
+        <input class="search-input" type="search" placeholder="Search route or driver" data-search=".ride-card">
+      </div>
+
+      <article class="ride-card">
+        <div><h3>Bole to Kazanchis</h3><p>Today, 3:45 PM · Haile Gebremariam</p></div>
+        <div class="text-right"><div class="money">ETB 125.50</div><p>5.0</p></div>
+      </article>
+      <article class="ride-card">
+        <div><h3>Airport to Piazza</h3><p>Yesterday, 7:30 AM · Getnet Kofale</p></div>
+        <div class="text-right"><div class="money">ETB 345.00</div><p>5.0</p></div>
+      </article>
+      <article class="ride-card">
+        <div><h3>Mexico to CMC</h3><p>Mar 20, 5:15 PM · Tadesse Alemu</p></div>
+        <div class="text-right"><div class="money">ETB 98.75</div><p>4.8</p></div>
+      </article>
+      <article class="ride-card">
+        <div><h3>Gerji to 4 Kilo</h3><p>Mar 18, 2:20 PM · Tesfaye Bekele</p></div>
+        <div class="text-right"><div class="money">ETB 156.25</div><p>5.0</p></div>
+      </article>
+      <article class="ride-card">
+        <div><h3>Saris to Megenagna</h3><p>Mar 15, 11:00 AM · Solomon Kedir</p></div>
+        <div class="text-right"><div class="money">ETB 187.50</div><p>4.9</p></div>
+      </article>
+
+      <div class="pager">
+        <button type="button">Prev</button>
+        <button class="active" type="button">1</button>
+        <button type="button">2</button>
+        <button type="button">3</button>
+        <button type="button">Next</button>
+      </div>
+    </div>
+  </main>
+  <script src="js/app.js"></script>
+</body>
+</html>

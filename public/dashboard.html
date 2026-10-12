@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — rideAlong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <a class="brand" href="dashboard.html"><span class="brand-mark">rA</span>rideAlong</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      <div class="nav-panel">
+        <nav class="site-nav">
+          <a class="active" href="dashboard.html">Home</a>
+          <a href="booking.html">Book</a>
+          <a href="history.html">History</a>
+          <a href="wallet.html">Wallet</a>
+        </nav>
+        <div class="header-actions">
+          <a class="btn btn-ghost btn-sm" href="profile.html">Profile</a>
+          <a class="btn btn-outline btn-sm" href="login.html">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <p class="page-kicker">Good evening</p>
+          <h1>Welcome back, Sara</h1>
+          <p>Your next ride is ready whenever you are.</p>
+        </div>
+        <div class="header-actions">
+          <a class="btn btn-primary" href="booking.html">Book a ride</a>
+          <button class="btn btn-secondary" type="button" onclick="RideAlong.toast('Scheduling will connect to the backend next.')">Schedule</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="metric-card"><div class="label">Total rides</div><div class="value">24</div><div class="hint">3 this month</div></article>
+        <article class="metric-card"><div class="label">Saved</div><div class="value">ETB 2,450</div><div class="hint">From offers used</div></article>
+        <article class="metric-card"><div class="label">Your rating</div><div class="value">4.9</div><div class="hint">Excellent</div></article>
+        <article class="metric-card"><div class="label">Reward points</div><div class="value">1,240</div><div class="hint">Ready to redeem</div></article>
+      </div>
+
+      <div class="split-2">
+        <section class="surface">
+          <div class="surface-head">
+            <h3>Recent rides</h3>
+            <a href="history.html">View all</a>
+          </div>
+          <div class="list-row">
+            <div><h4>Bole to Kazanchis</h4><p>Yesterday, 3:45 PM</p></div>
+            <div class="text-right"><div class="money">ETB 125.50</div><p>5.0</p></div>
+          </div>
+          <div class="list-row">
+            <div><h4>Airport to Piazza</h4><p>Mar 20, 7:30 AM</p></div>
+            <div class="text-right"><div class="money">ETB 345.00</div><p>5.0</p></div>
+          </div>
+          <div class="list-row">
+            <div><h4>Mexico to Piazza</h4><p>Mar 18, 5:15 PM</p></div>
+            <div class="text-right"><div class="money">ETB 98.75</div><p>4.8</p></div>
+          </div>
+          <div class="list-row">
+            <div><h4>Gerji to 4 Kilo</h4><p>Mar 15, 2:20 PM</p></div>
+            <div class="text-right"><div class="money">ETB 156.25</div><p>5.0</p></div>
+          </div>
+        </section>
+
+        <aside>
+          <div class="balance-card">
+            <div class="label">Wallet balance</div>
+            <div class="amount">ETB 5,240</div>
+            <a class="btn btn-light btn-block" href="wallet.html">Add funds</a>
+          </div>
+          <section class="surface">
+            <div class="surface-head"><h3>Offers</h3></div>
+            <div class="surface-body">
+              <div class="promo">
+                <h4>First ride 50% off</h4>
+                <p>For new rider accounts</p>
+                <button class="promo-code" type="button" onclick="RideAlong.copyCode('RIDE50')">RIDE50</button>
+              </div>
+              <div class="promo">
+                <h4>Weekend 20% off</h4>
+                <p>Saturday and Sunday trips</p>
+                <button class="promo-code" type="button" onclick="RideAlong.copyCode('WEEKEND20')">WEEKEND20</button>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+  <script src="js/app.js"></script>
+</body>
+</html>

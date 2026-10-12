@@ -1,0 +1,88 @@
+extends base
+block content
+  main.app-shell(data-driver-home data-user-id=userId)
+    .page
+      .page-head
+        div
+          p.page-kicker Driver
+          h1 Welcome back, #{firstName}
+          p= activeTrip ? 'You have an active trip right now.' : (requests.length ? 'New ride requests are waiting.' : 'Go online to receive ride requests.')
+        span.status-pill(data-online-badge)= statusLabel
+      .stats-grid
+        article.metric-card
+          .label Today's rides
+          .value= stats.ridesToday
+        article.metric-card
+          .label Today's earnings
+          .value= stats.earningsToday
+        article.metric-card
+          .label Total trips
+          .value= stats.totalTrips
+        article.metric-card
+          .label Rating
+          .value= stats.rating
+          .hint= stats.ratingHint
+      .split-2
+        section.surface
+          .surface-head
+            h3= activeTrip ? 'Active trip' : 'Incoming requests'
+            if activeTrip
+              a(href=`/tracking/${activeTrip.id}`) Open map
+          if activeTrip
+            .list-row
+              div
+                h4= activeTrip.title
+                p= `Passenger: ${activeTrip.passenger} · ${activeTrip.when}`
+              .text-right
+                .money= activeTrip.fare
+                p(data-active-status)= activeTrip.status
+            .header-actions.mt-md
+              if activeTrip.status === 'accepted'
+                button.btn.btn-primary(type='button' data-trip-status='arrived' data-trip-id=activeTrip.id) Mark arrived
+              if activeTrip.status === 'arrived'
+                button.btn.btn-primary(type='button' data-trip-status='picked_up' data-trip-id=activeTrip.id) Start trip
+              if activeTrip.status === 'picked_up'
+                button.btn.btn-primary(type='button' data-trip-status='completed' data-trip-id=activeTrip.id) Complete trip
+              button.btn.btn-secondary(type='button' data-trip-status='cancelled' data-trip-id=activeTrip.id) Cancel
+          else if requests.length
+            each request in requests
+              .list-row
+                div
+                  h4= request.title
+                  p= `${request.passenger} · ${request.distance}`
+                .text-right
+                  .money= request.fare
+              .header-actions
+                button.btn.btn-primary(type='button' data-accept-trip=request.id) Accept
+                button.btn.btn-secondary(type='button' data-decline-trip=request.id) Decline
+          else
+            .empty
+              h3 No requests yet
+              p Stay online near a pickup area to receive jobs.
+        aside
+          section.surface
+            .surface-head
+              h3 Performance
+            .surface-body
+              .kv
+                span Total trips
+                strong= stats.totalTrips
+              .kv
+                span This week
+                strong= stats.weekEarnings
+          section.surface.mt-lg
+            .surface-head
+              h3 Active vehicle
+            .surface-body
+              .kv
+                span Model
+                strong= vehicle.model || '—'
+              .kv
+                span Year
+                strong= vehicle.year || '—'
+              .kv
+                span Plate
+                strong= vehicle.plate_number || '—'
+              .kv
+                span Meter
+                strong= vehicle.meter_serial_number || '—'

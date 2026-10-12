@@ -1,0 +1,135 @@
+extends base
+
+block content
+  section.marketing-hero
+    .marketing-hero__inner
+      div
+        h1 Get across Addis without the guesswork.
+        p Book a verified driver, see the fare before you ride, and pay with wallet, card, or Telebirr.
+        .hero-actions
+          a.btn.btn-light.btn-lg(href='/signup') Book a ride
+          a.btn.btn-outline-light.btn-lg(href='/signup') Drive with us
+      form.hero-card(data-home-search)
+        h3 Where to?
+        .location-stack
+          label.location-field
+            span.dot
+            input(type='text' name='pickup' placeholder='Pickup location' value='Bole, Addis Ababa')
+          label.location-field
+            span.dot.dest
+            input(type='text' name='destination' placeholder='Destination' value='Kazanchis')
+        button.btn.btn-primary.btn-block(type='submit') See prices
+
+  section.stats-band
+    .stats-band__grid
+      div
+        .stat-figure 50K+
+        .stat-caption Active riders
+      div
+        .stat-figure 15K+
+        .stat-caption Verified drivers
+      div
+        .stat-figure 500K+
+        .stat-caption Completed rides
+      div
+        .stat-figure 4.9
+        .stat-caption Average rating
+
+  section#features.section-block(data-tabs)
+    .section-intro
+      h2 Built for everyday city travel
+      p Clear pricing, live tracking, and support that actually answers.
+    .text-center
+      .segmented
+        button.active(type='button' data-tab='riders') For riders
+        button(type='button' data-tab='drivers') For drivers
+    .tabs-panel.active(data-panel='riders')
+      .feature-grid
+        article.feature-card
+          .feature-icon 01
+          h3 Minutes, not maybe
+          p Nearby drivers are matched instantly so you are not waiting on the curb.
+        article.feature-card
+          .feature-icon 02
+          h3 Fare before you go
+          p See a full estimate before you confirm. No surprise add-ons at drop-off.
+        article.feature-card
+          .feature-icon 03
+          h3 Live tracking
+          p Share your trip with family and follow the car on the map in real time.
+        article.feature-card
+          .feature-icon 04
+          h3 Local payments
+          p Wallet, Visa, Telebirr, and CBE — use what you already have.
+        article.feature-card
+          .feature-icon 05
+          h3 Verified drivers
+          p Licenses, plates, and vehicle details are checked before anyone goes online.
+        article.feature-card
+          .feature-icon 06
+          h3 Rewards that add up
+          p Earn points on every completed ride and redeem them on later trips.
+    .tabs-panel(data-panel='drivers')
+      .feature-grid
+        article.feature-card
+          .feature-icon 01
+          h3 Keep more
+          p Transparent commission and weekly payouts you can track in one place.
+        article.feature-card
+          .feature-icon 02
+          h3 Your hours
+          p Go online when it works for you. No minimum shift requirement.
+        article.feature-card
+          .feature-icon 03
+          h3 Live earnings
+          p See fare, commission, and net pay after every trip.
+        article.feature-card
+          .feature-icon 04
+          h3 Driver support
+          p Get help with trips, documents, and payouts without leaving the app.
+        article.feature-card
+          .feature-icon 05
+          h3 Protection
+          p Coverage on accepted trips plus tools to report unsafe situations.
+        article.feature-card
+          .feature-icon 06
+          h3 Bonuses
+          p Peak-hour boosts and referral rewards when the city is busiest.
+
+  section#how-it-works.section-block.alt(data-tabs)
+    .section-inner
+      .section-intro
+        h2 Three steps. Then you are moving.
+        p The same simple flow for riders and drivers.
+      .text-center
+        .segmented
+          button.active(type='button' data-tab='rider-steps') Rider
+          button(type='button' data-tab='driver-steps') Driver
+      .tabs-panel.active(data-panel='rider-steps')
+        .step-grid
+          article.step-card
+            .step-index 1
+            h3 Create an account
+            p Sign up with your phone and email. It takes about a minute.
+          article.step-card
+            .step-index 2
+            h3 Set pickup and drop-off
+            p Choose a ride type, review the fare, and confirm.
+          article.step-card
+            .step-index 3
+            h3 Ride and pay
+            p Meet your driver, track the trip, and settle from your wallet.
+      .tabs-panel(data-panel='driver-steps')
+        .step-grid
+          article.step-card
+            .step-index 1
+            h3 Apply
+            p Add your license, plate, and meter details for review.
+          article.step-card
+            .step-index 2
+            h3 Get approved
+            p We verify documents and activate your driver profile.
+          article.step-card
+            .step-index 3
+            h3 Go online
+            p Accept nearby requests and start earning the same day.

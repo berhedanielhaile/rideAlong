@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book a ride — rideAlong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="js/bundle.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-container">
+        <a class="brand" href="dashboard.html"><span class="brand-mark">rA</span>rideAlong</a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+        <div class="nav-panel">
+          <nav class="site-nav">
+            <a href="dashboard.html">Home</a>
+            <a class="active" href="booking.html">Book</a>
+            <a href="history.html">History</a>
+            <a href="wallet.html">Wallet</a>
+          </nav>
+          <div class="header-actions">
+            <a class="btn btn-ghost btn-sm" href="profile.html">Profile</a>
+            <a class="btn btn-outline btn-sm" href="login.html">Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="split-map">
+      <section class="map-canvas" aria-label="Route preview">
+        <div id="map" role="application" aria-label="Map showing your pickup, destination and nearby drivers"></div>
+        <div class="map-caption" id="map-caption" aria-live="polite">
+          <strong>Finding your route...</strong><br />
+          Allow location access for a more accurate pickup.
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <div class="side-panel__head">
+          <h2>Book a ride</h2>
+          <div class="location-stack">
+            <label class="location-field">
+              <span class="dot"></span>
+              <input
+                id="pickup"
+                type="text"
+                value="Bole, Addis Ababa"
+                placeholder="Pickup"
+                autocomplete="off"
+                aria-label="Pickup location"
+                aria-controls="pickup-suggestions"
+              />
+            </label>
+            <div class="location-suggestions" id="pickup-suggestions" role="listbox" hidden></div>
+            <button class="swap-btn" type="button" aria-label="Swap locations" data-swap-locations>⇅</button>
+            <label class="location-field">
+              <span class="dot dest"></span>
+              <input
+                id="destination"
+                type="text"
+                value="Kazanchis, Addis Ababa"
+                placeholder="Destination"
+                autocomplete="off"
+                aria-label="Destination"
+                aria-controls="destination-suggestions"
+              />
+            </label>
+            <div class="location-suggestions" id="destination-suggestions" role="listbox" hidden></div>
+          </div>
+          <div class="ride-options mt-md">
+            <button class="ride-option active" type="button" data-ride-type="standard">
+              <strong>Standard</strong><span>ETB --</span>
+            </button>
+            <button class="ride-option" type="button" data-ride-type="comfort">
+              <strong>Comfort</strong><span>ETB --</span>
+            </button>
+            <button class="ride-option" type="button" data-ride-type="premium">
+              <strong>Premium</strong><span>ETB --</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="side-panel__body">
+          <div class="fare-box">
+            <div class="fare-line"><span>Base fare</span><span data-fare-base>ETB --</span></div>
+            <div class="fare-line">
+              <span data-fare-distance-label>Distance</span><span data-fare-distance>ETB --</span>
+            </div>
+            <div class="fare-line"><span data-fare-time-label>Time</span><span data-fare-time>ETB --</span></div>
+            <div class="fare-line"><span>Estimated total</span><span data-fare-total>ETB --</span></div>
+          </div>
+          <p class="text-semibold mb-sm">Nearby drivers</p>
+          <div id="nearby-drivers" aria-live="polite"><p class="booking-status">Loading nearby drivers...</p></div>
+        </div>
+
+        <div class="side-panel__foot">
+          <button class="btn btn-primary btn-block" type="button" data-confirm-booking disabled>Confirm booking</button>
+        </div>
+      </aside>
+    </main>
+    <script src="js/bundle.js"></script>
+  </body>
+</html>

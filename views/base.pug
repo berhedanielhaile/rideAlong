@@ -1,0 +1,14 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title rideAlong | #{title}
+    link(rel='stylesheet' href='/js/bundle.css')
+
+    link(rel='stylesheet' href='/css/style.css')
+  body(class=bodyClass)
+    include _header
+    block content
+    include _footer
+    script(src='/js/bundle.js')

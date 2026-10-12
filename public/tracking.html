@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live trip — rideAlong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <a class="brand" href="dashboard.html"><span class="brand-mark">rA</span>rideAlong</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      <div class="nav-panel">
+        <nav class="site-nav">
+          <a href="dashboard.html">Home</a>
+          <a href="booking.html">Book</a>
+          <a href="history.html">History</a>
+          <a href="wallet.html">Wallet</a>
+        </nav>
+        <div class="header-actions">
+          <a class="btn btn-ghost btn-sm" href="profile.html">Profile</a>
+          <a class="btn btn-outline btn-sm" href="login.html">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="split-map">
+    <section class="map-canvas" aria-label="Live route">
+      <div class="map-route"></div>
+      <span class="map-pin a"></span>
+      <span class="map-pin b"></span>
+      <div class="map-caption">
+        <strong>Driver is 2 min away</strong><br>
+        Mexico · heading to Kazanchis
+      </div>
+    </section>
+
+    <aside class="side-panel">
+      <div class="side-panel__head">
+        <h2>Your trip</h2>
+        <span class="status-pill">On the way</span>
+      </div>
+      <div class="side-panel__body">
+        <div class="driver-hero">
+          <div class="flex gap-md flex-center-y">
+            <span class="avatar">HG</span>
+            <div>
+              <h3>Haile Gebremariam</h3>
+              <p>4.9 · Toyota Corolla · AA 123 DEF</p>
+            </div>
+          </div>
+          <div class="eta-pill"><strong>2</strong>minutes away</div>
+        </div>
+        <div class="action-row">
+          <button class="ghost-action" type="button" onclick="RideAlong.toast('Calling driver…')">Call</button>
+          <button class="ghost-action" type="button" onclick="RideAlong.toast('Chat opens here when the backend is connected.')">Chat</button>
+          <button class="ghost-action" type="button" onclick="RideAlong.toast('Support is on the way.')">Help</button>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item"><span class="bullet done"></span><div><h4>Pickup</h4><p>Bole, Addis Ababa</p></div></div>
+          <div class="timeline-item"><span class="bullet now"></span><div><h4>Now</h4><p>Mexico, moving toward destination</p></div></div>
+          <div class="timeline-item"><span class="bullet"></span><div><h4>Drop-off</h4><p>Kazanchis · ETA 2 min</p></div></div>
+        </div>
+        <div class="fare-box">
+          <div class="fare-line"><span>Distance</span><span>8.2 km</span></div>
+          <div class="fare-line"><span>Duration</span><span>12 min</span></div>
+          <div class="fare-line"><span>Estimated fare</span><span>ETB 125.50</span></div>
+        </div>
+      </div>
+      <div class="side-panel__foot">
+        <button class="btn btn-error btn-block" type="button" data-open-dialog="cancelDialog">Cancel ride</button>
+      </div>
+    </aside>
+  </main>
+
+  <div class="dialog-backdrop" id="cancelDialog">
+    <div class="dialog">
+      <h3>Cancel this ride?</h3>
+      <p class="text-secondary">If the driver is already on the way, a small cancellation fee may apply.</p>
+      <div class="header-actions mt-lg">
+        <button class="btn btn-secondary" type="button" data-close-dialog>Keep ride</button>
+        <a class="btn btn-error" href="dashboard.html">Cancel ride</a>
+      </div>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>

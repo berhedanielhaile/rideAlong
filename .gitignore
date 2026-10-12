@@ -1,0 +1,7 @@
+node_modules
+.cache
+config.env
+.env
+*.env.local
+.DS_Store
+public/.cache

@@ -1,0 +1,337 @@
+// ============================================
+// SASS MIXINS
+// ============================================
+
+@use 'variables' as *;
+
+// ========== FLEXBOX ==========
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-gap($gap) {
+  display: flex;
+  gap: $gap;
+}
+
+// ========== GRID ==========
+@mixin grid-cols($cols) {
+  display: grid;
+  grid-template-columns: repeat($cols, 1fr);
+}
+
+@mixin grid-auto-cols($minmax-min, $minmax-max) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($minmax-min, $minmax-max));
+}
+
+// ========== TEXT ==========
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin text-shadow($x, $y, $blur, $color) {
+  text-shadow: $x $y $blur rgba($color, 0.5);
+}
+
+// ========== TRANSITIONS ==========
+@mixin transition($property: all, $duration: $transition-base, $timing: ease-out) {
+  transition: $property $duration $timing;
+}
+
+@mixin hover-transition($duration: $transition-base) {
+  transition: all $duration ease-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// ========== POSITIONING ==========
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-cover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@mixin fixed-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin sticky-top($top: 0) {
+  position: sticky;
+  top: $top;
+  z-index: $z-sticky;
+}
+
+// ========== SIZING ==========
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+// ========== BACKGROUNDS ==========
+@mixin bg-gradient($from, $to, $direction: 135deg) {
+  background: linear-gradient($direction, $from 0%, $to 100%);
+}
+
+@mixin bg-image($url) {
+  background-image: url($url);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+// ========== BORDERS ==========
+@mixin border($width: 1px, $color: $border, $radius: 0) {
+  border: $width solid $color;
+  border-radius: $radius;
+}
+
+@mixin border-radius-responsive($sm, $md, $lg) {
+  border-radius: $sm;
+
+  @media (min-width: $breakpoint-md) {
+    border-radius: $md;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    border-radius: $lg;
+  }
+}
+
+// ========== SHADOWS ==========
+@mixin shadow($level: 'md') {
+  @if $level == 'xs' {
+    box-shadow: $shadow-xs;
+  } @else if $level == 'sm' {
+    box-shadow: $shadow-sm;
+  } @else if $level == 'md' {
+    box-shadow: $shadow-md;
+  } @else if $level == 'lg' {
+    box-shadow: $shadow-lg;
+  } @else if $level == 'xl' {
+    box-shadow: $shadow-xl;
+  } @else if $level == '2xl' {
+    box-shadow: $shadow-2xl;
+  }
+}
+
+@mixin inner-shadow {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// ========== RESPONSIVE ==========
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == '2xl' {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
+}
+
+@mixin hide-on-mobile {
+  @media (max-width: $breakpoint-md - 1px) {
+    display: none;
+  }
+}
+
+@mixin show-on-mobile {
+  @media (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+// ========== ACCESSIBILITY ==========
+@mixin focus-ring($color: $accent-blue, $offset: 2px) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+}
+
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ========== APPEARANCE ==========
+@mixin no-appearance {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+@mixin user-select($value: none) {
+  user-select: $value;
+  -webkit-user-select: $value;
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+}
+
+@mixin pointer-events($value: auto) {
+  pointer-events: $value;
+}
+
+// ========== ANIMATIONS ==========
+@mixin slide-in($direction: right, $distance: 100%, $duration: $duration-base) {
+  animation: slide-in-#{$direction} $duration ease-out;
+
+  @keyframes slide-in-#{$direction} {
+    from {
+      opacity: 0;
+      @if $direction == 'right' {
+        transform: translateX($distance);
+      } @else if $direction == 'left' {
+        transform: translateX(-$distance);
+      } @else if $direction == 'top' {
+        transform: translateY(-$distance);
+      } @else if $direction == 'bottom' {
+        transform: translateY($distance);
+      }
+    }
+    to {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+}
+
+@mixin fade-in($duration: $duration-base) {
+  animation: fade-in $duration ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin scale-up($duration: $duration-base) {
+  animation: scale-up $duration ease-out;
+
+  @keyframes scale-up {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+// ========== CONTAINER QUERIES ==========
+@mixin container($size) {
+  container-type: inline-size;
+
+  @container (min-width: $size) {
+    @content;
+  }
+}
+
+// ========== UTILITY GENERATORS ==========
+@mixin generate-margin-classes {
+  @each $key, $value in (
+    'xs': $spacing-xs,
+    'sm': $spacing-sm,
+    'md': $spacing-md,
+    'lg': $spacing-lg,
+    'xl': $spacing-xl,
+    '2xl': $spacing-2xl,
+    '3xl': $spacing-3xl
+  ) {
+    .m-#{$key} { margin: $value; }
+    .mt-#{$key} { margin-top: $value; }
+    .mb-#{$key} { margin-bottom: $value; }
+    .ml-#{$key} { margin-left: $value; }
+    .mr-#{$key} { margin-right: $value; }
+    .mx-#{$key} { margin-left: $value; margin-right: $value; }
+    .my-#{$key} { margin-top: $value; margin-bottom: $value; }
+  }
+}
+
+@mixin generate-padding-classes {
+  @each $key, $value in (
+    'xs': $spacing-xs,
+    'sm': $spacing-sm,
+    'md': $spacing-md,
+    'lg': $spacing-lg,
+    'xl': $spacing-xl,
+    '2xl': $spacing-2xl,
+    '3xl': $spacing-3xl
+  ) {
+    .p-#{$key} { padding: $value; }
+    .pt-#{$key} { padding-top: $value; }
+    .pb-#{$key} { padding-bottom: $value; }
+    .pl-#{$key} { padding-left: $value; }
+    .pr-#{$key} { padding-right: $value; }
+    .px-#{$key} { padding-left: $value; padding-right: $value; }
+    .py-#{$key} { padding-top: $value; padding-bottom: $value; }
+  }
+}

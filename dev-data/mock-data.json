@@ -1,0 +1,183 @@
+{
+  "locations": [
+    {"id": "LOC001", "name": "Bole", "lat": 9.0371, "lng": 38.7533},
+    {"id": "LOC002", "name": "Kazanchis", "lat": 9.0247, "lng": 38.8075},
+    {"id": "LOC003", "name": "Piassa", "lat": 9.0321, "lng": 38.7467},
+    {"id": "LOC004", "name": "Mexico Square", "lat": 9.0298, "lng": 38.7421},
+    {"id": "LOC005", "name": "Saris", "lat": 9.0153, "lng": 38.7644},
+    {"id": "LOC006", "name": "CMC", "lat": 9.0421, "lng": 38.7587},
+    {"id": "LOC007", "name": "Megenagna", "lat": 9.0095, "lng": 38.7702},
+    {"id": "LOC008", "name": "Gerji", "lat": 9.0526, "lng": 38.7913},
+    {"id": "LOC009", "name": "4 Kilo", "lat": 9.0742, "lng": 38.7811},
+    {"id": "LOC010", "name": "Airport", "lat": 8.9953, "lng": 38.7982},
+    {"id": "LOC011", "name": "Lafto", "lat": 9.0851, "lng": 38.7935},
+    {"id": "LOC012", "name": "Arat Kilo", "lat": 9.0298, "lng": 38.7391},
+    {"id": "LOC013", "name": "Meskel Square", "lat": 9.0298, "lng": 38.7465}
+  ],
+  "passengers": [
+    {
+      "id": "P001",
+      "name": "Sarah Johnson",
+      "email": "sarah.johnson@email.com",
+      "phoneNumber": "+251912345678",
+      "role": "passenger",
+      "total_rides": 156,
+      "rating": 4.9
+    },
+    {
+      "id": "P002",
+      "name": "Abebe Tekle",
+      "email": "abebe.tekle@email.com",
+      "phoneNumber": "+251911234567",
+      "role": "passenger",
+      "total_rides": 89,
+      "rating": 4.7
+    },
+    {
+      "id": "P003",
+      "name": "Marta Alemayehu",
+      "email": "marta.alemayehu@email.com",
+      "phoneNumber": "+251913456789",
+      "role": "passenger",
+      "total_rides": 234,
+      "rating": 4.8
+    },
+    {
+      "id": "P004",
+      "name": "Kaleab Hailu",
+      "email": "kaleab.hailu@email.com",
+      "phoneNumber": "+251914567890",
+      "role": "passenger",
+      "total_rides": 67,
+      "rating": 4.6
+    },
+    {
+      "id": "P005",
+      "name": "Yohannes Kebede",
+      "email": "yohannes.kebede@email.com",
+      "phoneNumber": "+251915678901",
+      "role": "passenger",
+      "total_rides": 345,
+      "rating": 4.9
+    }
+  ],
+  "drivers": [
+    {
+      "id": "D001",
+      "name": "Addis Alemayehu",
+      "email": "addis.alemayehu@email.com",
+      "phoneNumber": "+251912111111",
+      "role": "driver",
+      "license_number": "ET-DR-001-2023",
+      "status": "online",
+      "rating": 4.9,
+      "total_trips": 320,
+      "vehicle": "Toyota Corolla - AA 123 ABC"
+    },
+    {
+      "id": "D002",
+      "name": "Kaleab Hailu",
+      "email": "kaleab.driver@email.com",
+      "phoneNumber": "+251912222222",
+      "role": "driver",
+      "license_number": "ET-DR-002-2023",
+      "status": "available",
+      "rating": 4.8,
+      "total_trips": 287,
+      "vehicle": "Honda Civic - AA 456 DEF"
+    },
+    {
+      "id": "D003",
+      "name": "Yohannes Kebede",
+      "email": "yohannes.driver@email.com",
+      "phoneNumber": "+251912333333",
+      "role": "driver",
+      "license_number": "ET-DR-003-2023",
+      "status": "on_trip",
+      "rating": 4.7,
+      "total_trips": 245,
+      "vehicle": "Hyundai i20 - AA 789 GHI"
+    },
+    {
+      "id": "D004",
+      "name": "Abebe Tsegaye",
+      "email": "abebe.driver@email.com",
+      "phoneNumber": "+251912444444",
+      "role": "driver",
+      "license_number": "ET-DR-004-2023",
+      "status": "offline",
+      "rating": 4.6,
+      "total_trips": 198,
+      "vehicle": "Mitsubishi Lancer - AA 321 JKL"
+    },
+    {
+      "id": "D005",
+      "name": "Getnet Teshome",
+      "email": "getnet.driver@email.com",
+      "phoneNumber": "+251912555555",
+      "role": "driver",
+      "license_number": "ET-DR-005-2023",
+      "status": "available",
+      "rating": 4.9,
+      "total_trips": 412,
+      "vehicle": "Toyota Yaris - AA 654 MNO"
+    }
+  ],
+  "rides": [
+    {
+      "id": "RID001",
+      "passenger": "Sarah Johnson (P001)",
+      "driver": "Addis Alemayehu (D001)",
+      "route": "Bole → Kazanchis",
+      "distance": 8.5,
+      "fare": 145,
+      "status": "completed",
+      "rating": 5,
+      "review": "Excellent driver, very professional!"
+    },
+    {
+      "id": "RID002",
+      "passenger": "Abebe Tekle (P002)",
+      "driver": "Kaleab Hailu (D002)",
+      "route": "Piassa → Airport",
+      "distance": 18.3,
+      "fare": 285,
+      "status": "completed",
+      "rating": 4,
+      "review": "Good service, arrived on time"
+    },
+    {
+      "id": "RID003",
+      "passenger": "Marta Alemayehu (P003)",
+      "driver": "Yohannes Kebede (D003)",
+      "route": "Mexico Square → Saris",
+      "distance": 3.2,
+      "fare": 95,
+      "status": "in_progress",
+      "rating": null,
+      "review": null
+    },
+    {
+      "id": "RID004",
+      "passenger": "Sarah Johnson (P001)",
+      "driver": "Kaleab Hailu (D002)",
+      "route": "Kazanchis → 4 Kilo",
+      "distance": 12.4,
+      "fare": 185,
+      "status": "completed",
+      "rating": 5,
+      "review": "Perfect ride!"
+    },
+    {
+      "id": "RID005",
+      "passenger": "Kaleab Hailu (P004)",
+      "driver": "Addis Alemayehu (D001)",
+      "route": "CMC → Megenagna",
+      "distance": 7.8,
+      "fare": 125,
+      "status": "completed",
+      "rating": 4,
+      "review": "Good service"
+    }
+  ]
+}

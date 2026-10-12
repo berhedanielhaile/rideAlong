@@ -1,0 +1,40 @@
+extends base
+block content
+  main.app-shell
+    .page
+      .page-head
+        div
+          h1 Ride history
+          p Search and filter every trip.
+      .stats-grid
+        article.metric-card
+          .label Trips
+          .value= stats.totalRides
+        article.metric-card
+          .label Distance
+          .value= `${stats.totalDistanceKm} km`
+        article.metric-card
+          .label Spent
+          .value= stats.spent
+        article.metric-card
+          .label Avg rating
+          .value= stats.rating
+      .filter-bar
+        .chip-row(data-range-filters)
+          button.chip.active(type='button' data-range='all') All
+          button.chip(type='button' data-range='week') This week
+          button.chip(type='button' data-range='month') This month
+        input.search-input(type='search' placeholder='Search route or name' data-search='[data-ride-card]')
+      if rides.length
+        each ride in rides
+          a.ride-card(href=`/tracking/${ride.id}` data-ride-card data-created=ride.createdAt data-search-text=ride.searchText)
+            div
+              h3= ride.title
+              p= `${ride.when} · ${ride.counterpart}`
+            .text-right
+              .money= ride.fare
+              p= ride.rating
+      else
+        .empty
+          h3 No trips yet
+          p Book a ride and your history will show up here.

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallet — rideAlong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <a class="brand" href="dashboard.html"><span class="brand-mark">rA</span>rideAlong</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      <div class="nav-panel">
+        <nav class="site-nav">
+          <a href="dashboard.html">Home</a>
+          <a href="booking.html">Book</a>
+          <a href="history.html">History</a>
+          <a class="active" href="wallet.html">Wallet</a>
+        </nav>
+        <div class="header-actions">
+          <a class="btn btn-ghost btn-sm" href="profile.html">Profile</a>
+          <a class="btn btn-outline btn-sm" href="login.html">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <div class="page">
+      <div class="balance-card">
+        <div class="label">Available balance</div>
+        <div class="amount">ETB 5,240.50</div>
+        <div class="header-actions">
+          <button class="btn btn-light" type="button" data-open-dialog="topupDialog">Add funds</button>
+          <button class="btn btn-outline-light" type="button" onclick="RideAlong.toast('Transfers will use the wallet API.')">Transfer</button>
+        </div>
+      </div>
+
+      <div class="split-2">
+        <section class="surface">
+          <div class="surface-head"><h3>Recent activity</h3></div>
+          <div class="list-row">
+            <div><h4>Ride payment</h4><p>Bole to Kazanchis</p></div>
+            <div class="text-right"><div class="money" style="color:#dc2626">- ETB 125.50</div><p>Today</p></div>
+          </div>
+          <div class="list-row">
+            <div><h4>Wallet top-up</h4><p>Visa · 4242</p></div>
+            <div class="text-right"><div class="money" style="color:#059669">+ ETB 1,000.00</div><p>Mar 20</p></div>
+          </div>
+          <div class="list-row">
+            <div><h4>Ride payment</h4><p>Airport to Piazza</p></div>
+            <div class="text-right"><div class="money" style="color:#dc2626">- ETB 345.00</div><p>Mar 19</p></div>
+          </div>
+          <div class="list-row">
+            <div><h4>Referral bonus</h4><p>Friend signup</p></div>
+            <div class="text-right"><div class="money" style="color:#059669">+ ETB 250.00</div><p>Mar 18</p></div>
+          </div>
+        </section>
+
+        <aside>
+          <section class="surface">
+            <div class="surface-head"><h3>Quick top-up</h3></div>
+            <div class="surface-body">
+              <div class="amount-grid">
+                <button class="chip" type="button">ETB 500</button>
+                <button class="chip" type="button">ETB 1,000</button>
+                <button class="chip" type="button">ETB 2,000</button>
+                <button class="chip" type="button">ETB 5,000</button>
+              </div>
+              <div class="form-group mt-md">
+                <label for="customAmount">Custom amount</label>
+                <input id="customAmount" type="number" placeholder="ETB">
+              </div>
+              <button class="btn btn-primary btn-block" type="button" data-open-dialog="topupDialog">Top up now</button>
+            </div>
+          </section>
+          <section class="surface mt-lg">
+            <div class="surface-body">
+              <h3>Security</h3>
+              <p class="text-secondary">Payments are encrypted. You can lock the wallet from Profile if a device is lost.</p>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div class="dialog-backdrop" id="topupDialog">
+    <div class="dialog">
+      <h3>Add funds</h3>
+      <p class="text-secondary">Choose a method. This will connect to your payment API later.</p>
+      <div class="form-group mt-md">
+        <label for="method">Method</label>
+        <select id="method">
+          <option>Visa / Mastercard</option>
+          <option>Telebirr</option>
+          <option>CBE Birr</option>
+        </select>
+      </div>
+      <div class="header-actions mt-lg">
+        <button class="btn btn-secondary" type="button" data-close-dialog>Close</button>
+        <button class="btn btn-primary" type="button" data-close-dialog onclick="RideAlong.toast('Top-up started.', 'success')">Continue</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>

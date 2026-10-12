@@ -1,0 +1,58 @@
+extends base
+block content
+  main.app-shell
+    .page
+      .page-head
+        div
+          h1 Earnings
+          p Fare, 15% platform commission, and net pay for completed trips.
+      .stats-grid
+        article.metric-card.highlight-card
+          .label This week
+          .value= stats.week
+        article.metric-card
+          .label This month
+          .value= stats.month
+        article.metric-card
+          .label Lifetime
+          .value= stats.lifetime
+        article.metric-card
+          .label Trips
+          .value= stats.trips
+      .filter-bar
+        .chip-row(data-range-filters)
+          button.chip.active(type='button' data-range='week') This week
+          button.chip(type='button' data-range='month') This month
+          button.chip(type='button' data-range='all') All time
+        input.search-input(type='search' placeholder='Search route or rider' data-search='[data-earning-row]')
+      section.surface
+        .table-head
+          div Route
+          div Fare
+          div Commission
+          div Earnings
+          div Time
+        if rows.length
+          each row in rows
+            .table-row(data-earning-row data-created=row.createdAt data-search-text=row.searchText)
+              div
+                h4= row.title
+                p= `${row.passenger} · ${row.distance}`
+              div= row.fare
+              div= row.commission
+              .money= row.earnings
+              div= row.when
+        else
+          .empty
+            h3 No completed trips
+            p Finished rides will appear here with fare and net pay.
+      .stats-grid.mt-xl
+        article.metric-card
+          .label Rides
+          .value= stats.rides
+        article.metric-card
+          .label Distance
+          .value= `${stats.distance} km`
+        article.metric-card
+          .label Avg rating
+          .value= stats.rating

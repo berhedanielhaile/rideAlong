@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System - Meter-Taxi</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">MT Design System</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="styleguide.html" class="active">Design System</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Colors Section -->
+    <section class="section section-primary">
+      <div class="container">
+        <h1>Color Palette</h1>
+        <p>Uber-inspired minimalist design with black, white, and blue accents</p>
+
+        <div style="margin-top: 3rem;">
+          <h2>Primary Colors</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="text-align: center;">
+              <div style="width: 100%; height: 120px; background: #000000; border-radius: 12px; margin-bottom: 1rem; border: 1px solid var(--border);"></div>
+              <p style="margin: 0; font-weight: 600;">#000000</p>
+              <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 0.875rem;">Black</p>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 100%; height: 120px; background: #ffffff; border-radius: 12px; margin-bottom: 1rem; border: 1px solid var(--border);"></div>
+              <p style="margin: 0; font-weight: 600;">#ffffff</p>
+              <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 0.875rem;">White</p>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 100%; height: 120px; background: #0073e6; border-radius: 12px; margin-bottom: 1rem;"></div>
+              <p style="margin: 0; font-weight: 600;">#0073e6</p>
+              <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 0.875rem;">Accent Blue</p>
+            </div>
+          </div>
+
+          <h2>Functional Colors</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem;">
+            <div style="text-align: center;">
+              <div style="width: 100%; height: 120px; background: #27ae60; border-radius: 12px; margin-bottom: 1rem;"></div>
+              <p style="margin: 0; font-weight: 600;">Success</p>
+              <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 0.875rem;">#27ae60</p>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 100%; height: 120px; background: #e74c3c; border-radius: 12px; margin-bottom: 1rem;"></div>
+              <p style="margin: 0; font-weight: 600;">Error</p>
+              <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 0.875rem;">#e74c3c</p>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 100%; height: 120px; background: #f39c12; border-radius: 12px; margin-bottom: 1rem;"></div>
+              <p style="margin: 0; font-weight: 600;">Warning</p>
+              <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 0.875rem;">#f39c12</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons Section -->
+    <section class="section section-secondary">
+      <div class="container">
+        <h1>Buttons</h1>
+        
+        <h2 style="margin-top: 2rem;">Button Variants</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem;">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-outline">Outline</button>
+          <button class="btn btn-accent">Accent</button>
+          <button class="btn btn-error">Error</button>
+          <button class="btn btn-ghost">Ghost</button>
+        </div>
+
+        <h2>Button Sizes</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+          <button class="btn btn-primary btn-sm">Small</button>
+          <button class="btn btn-primary">Regular</button>
+          <button class="btn btn-primary btn-lg">Large</button>
+          <button class="btn btn-primary btn-block" style="max-width: 300px;">Full Width</button>
+        </div>
+
+        <h2 style="margin-top: 2rem;">Button States</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+          <button class="btn btn-primary">Enabled</button>
+          <button class="btn btn-primary" disabled>Disabled</button>
+          <button class="btn btn-primary" style="pointer-events: none;">Hover (Simulated)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forms Section -->
+    <section class="section section-primary">
+      <div class="container">
+        <h1>Form Elements</h1>
+        
+        <div style="max-width: 500px;">
+          <form style="display: grid; gap: 1.5rem;">
+            <div class="form-group">
+              <label for="text-input">Text Input</label>
+              <input type="text" id="text-input" placeholder="Enter text...">
+            </div>
+
+            <div class="form-group">
+              <label for="email-input">Email Input</label>
+              <input type="email" id="email-input" placeholder="Enter email...">
+            </div>
+
+            <div class="form-group">
+              <label for="select-input">Select Input</label>
+              <select id="select-input">
+                <option>Choose an option</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="textarea-input">Textarea</label>
+              <textarea id="textarea-input" placeholder="Enter message..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 2rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin: 0;">
+                <input type="checkbox">
+                <span>Checkbox</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin: 0;">
+                <input type="radio" name="radio">
+                <span>Radio Option 1</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin: 0;">
+                <input type="radio" name="radio">
+                <span>Radio Option 2</span>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="section section-secondary">
+      <div class="container">
+        <h1>Cards</h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+          <div class="card">
+            <div class="card-header">
+              <h3>Card with Header</h3>
+            </div>
+            <div class="card-body">
+              <p>This is the card body content. Cards are versatile containers for grouping related content.</p>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary btn-sm">Action</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h3 style="margin-top: 0;">Simple Card</h3>
+              <p style="margin-bottom: 0;">A basic card without header or footer. Perfect for simple content.</p>
+            </div>
+          </div>
+
+          <div class="card" style="text-align: center;">
+            <div class="card-body">
+              <div style="font-size: 2.5rem; margin-bottom: 1rem;">⭐</div>
+              <h3>Card Icon</h3>
+              <p style="margin-bottom: 0;">Cards can feature icons and centered content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges Section -->
+    <section class="section section-primary">
+      <div class="container">
+        <h1>Badges</h1>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+          <span class="badge badge-primary">Primary</span>
+          <span class="badge badge-success">Success</span>
+          <span class="badge badge-error">Error</span>
+          <span class="badge badge-warning">Warning</span>
+          <span class="badge badge-info">Info</span>
+          <span class="badge badge-outline">Outline</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section class="section section-secondary">
+      <div class="container">
+        <h1>Typography</h1>
+        
+        <div style="margin-bottom: 2rem;">
+          <h2 style="margin-bottom: 1rem;">Headings</h2>
+          <h1 style="margin-bottom: 0.5rem;">H1 - Main Headline (36px)</h1>
+          <h2 style="margin-bottom: 0.5rem;">H2 - Section Title (30px)</h2>
+          <h3 style="margin-bottom: 0.5rem;">H3 - Subsection (24px)</h3>
+          <h4 style="margin-bottom: 0.5rem;">H4 - Subheading (20px)</h4>
+          <h5 style="margin-bottom: 0.5rem;">H5 - Label (18px)</h5>
+          <h6>H6 - Small Heading (16px)</h6>
+        </div>
+
+        <div>
+          <h2 style="margin-bottom: 1rem;">Body Text</h2>
+          <p>This is a regular paragraph text (16px). It uses the system font stack for optimal performance and rendering. The line height is set to 1.6 for comfortable reading.</p>
+          <p class="text-secondary">This is secondary text (14px, #595959). Used for supporting information and less important content.</p>
+          <p class="text-muted">This is muted text (12px, #b3b3b3). Used for hints, labels, and disabled states.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid Section -->
+    <section class="section section-primary">
+      <div class="container">
+        <h1>Grid System</h1>
+        
+        <h2 style="margin-bottom: 1.5rem;">Two Columns</h2>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 3rem;">
+          <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">Column 1</div>
+          <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">Column 2</div>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem;">Three Columns</h2>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+          <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">Col 1</div>
+          <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">Col 2</div>
+          <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">Col 3</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spacing Section -->
+    <section class="section section-secondary">
+      <div class="container">
+        <h1>Spacing Scale</h1>
+        
+        <p>All spacing is based on an 8px base unit for consistency.</p>
+        
+        <div style="display: grid; gap: 2rem;">
+          <div>
+            <p style="margin-bottom: 0.5rem; font-weight: 600;">4px (xs)</p>
+            <div style="background: var(--accent-blue); height: 4px; border-radius: 2px;"></div>
+          </div>
+          <div>
+            <p style="margin-bottom: 0.5rem; font-weight: 600;">8px (sm)</p>
+            <div style="background: var(--accent-blue); height: 8px; border-radius: 2px;"></div>
+          </div>
+          <div>
+            <p style="margin-bottom: 0.5rem; font-weight: 600;">16px (md)</p>
+            <div style="background: var(--accent-blue); height: 16px; border-radius: 2px;"></div>
+          </div>
+          <div>
+            <p style="margin-bottom: 0.5rem; font-weight: 600;">24px (lg)</p>
+            <div style="background: var(--accent-blue); height: 24px; border-radius: 2px;"></div>
+          </div>
+          <div>
+            <p style="margin-bottom: 0.5rem; font-weight: 600;">32px (xl)</p>
+            <div style="background: var(--accent-blue); height: 32px; border-radius: 2px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Animations Section -->
+    <section class="section section-primary">
+      <div class="container">
+        <h1>Animations</h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem;">
+          <div style="text-align: center;">
+            <div class="animate-fade-in" style="width: 80px; height: 80px; background: var(--accent-blue); border-radius: 12px; margin: 0 auto 1rem;"></div>
+            <p style="margin: 0; font-weight: 600; font-size: 0.875rem;">Fade In</p>
+          </div>
+          <div style="text-align: center;">
+            <div class="animate-slide-up" style="width: 80px; height: 80px; background: var(--accent-blue); border-radius: 12px; margin: 0 auto 1rem;"></div>
+            <p style="margin: 0; font-weight: 600; font-size: 0.875rem;">Slide Up</p>
+          </div>
+          <div style="text-align: center;">
+            <div class="animate-spin" style="width: 80px; height: 80px; border: 4px solid var(--border); border-top-color: var(--accent-blue); border-radius: 50%; margin: 0 auto 1rem;"></div>
+            <p style="margin: 0; font-weight: 600; font-size: 0.875rem;">Spin</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 1.5rem;">
+      <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem;">
+        <p style="margin: 0; text-align: center;">© 2024 Meter-Taxi Design System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
