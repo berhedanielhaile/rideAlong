@@ -4,12 +4,12 @@ block content
   section.marketing-hero
     .marketing-hero__inner
       div
-        h1 Get across Addis without the guesswork.
-        p Book a verified driver, see the fare before you ride, and pay with wallet, card, or Telebirr.
+        h1 See the fare. Track the car. Arrive sure.
+        p Metered rides across Addis Ababa — nearby drivers on the map, a price before you confirm, and live tracking from pickup to drop-off.
         .hero-actions
-          a.btn.btn-light.btn-lg(href='/signup') Book a ride
-          a.btn.btn-outline-light.btn-lg(href='/signup') Drive with us
-      form.hero-card(data-home-search)
+          a.btn.btn-light.btn-lg(href=user ? (user.role === 'driver' ? '/driver' : '/booking') : '/register') Book a ride
+          a.btn.btn-outline-light.btn-lg(href=user && user.role === 'driver' ? '/driver' : '/register') Drive with us
+      form.hero-card(data-home-search data-next=user ? (user.role === 'driver' ? '/driver' : '/booking') : '/register')
         h3 Where to?
         .location-stack
           label.location-field
@@ -133,3 +133,12 @@ block content
             .step-index 3
             h3 Go online
             p Accept nearby requests and start earning the same day.
+
+  section.cta-banner
+    .cta-banner__glow
+    p.cta-kicker Ready when you are
+    h2 Your next ride, already on the map.
+    p Pick a destination, choose a nearby driver, and follow the trip live. No guesswork on fare, route, or arrival.
+    .hero-actions.cta-banner__actions
+      a.btn.btn-light.btn-lg(href=user ? (user.role === 'driver' ? '/driver' : '/booking') : '/register') Book a ride
+      a.btn.btn-outline-light.btn-lg(href=user && user.role === 'driver' ? '/driver' : '/register') Become a driver

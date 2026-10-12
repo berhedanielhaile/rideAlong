@@ -129,6 +129,7 @@ exports.showTracking = catchAsync(async (req, res, next) => {
       pickup: {
         label: (trip.pickup && trip.pickup.adress) || 'Pickup',
         coordinates: pickupCoords,
+        timeStamp: trip.pickup && trip.pickup.timeStamp,
       },
       dropoff: {
         label: (trip.dropoff && trip.dropoff.adress) || 'Drop-off',
@@ -146,6 +147,7 @@ exports.showTracking = catchAsync(async (req, res, next) => {
           driver.driverProfile.current_location &&
           driver.driverProfile.current_location.coordinates,
       },
+      createdAt: trip.createdAt,
     }).replace(/</g, '\\u003c'),
   });
 });

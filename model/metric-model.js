@@ -14,6 +14,10 @@ const meterSnapshotSchema = new mongoose.Schema(
     },
     meter_serial_number: { type: String, trim: true },
     recorded_at: { type: Date, default: Date.now },
+    location: {
+      type: { type: String, enum: ['Point'] },
+      coordinates: { type: [Number] },
+    },
   },
   { _id: false },
 );

@@ -16,10 +16,11 @@ export function initBooking(mapController) {
     destination: null,
     preview: null,
     nearbyDrivers: [],
+    mapDrivers: [],
     selectedDriverId: null,
     rideType: 'standard',
     previewSequence: 0,
-    nearbySequence: 0,
+    mapSequence: 0,
   };
 
   function status(message, isError = false) {
@@ -114,8 +115,17 @@ export function initBooking(mapController) {
       confirmButton.disabled = true;
       renderFare();
       mapController.clearLocation(which);
-      driverList.textContent = 'Choose a suggested location to preview nearby drivers.';
-      status('Choose a suggested location to update the route.');
+      if (which === 'pickup') {
+        mapController.setDrivers([]);
+        state.mapDrivers = [];
+      }
+      state.nearbyDrivers = [];
+      driverList.replaceChildren();
+      const hint = document.createElement('p');
+      hint.className = 'booking-status';
+      hint.textContent = 'Enter a destination to see nearby drivers.';
+      driverList.append(hint);
+      status(which === 'destination' ? 'Enter a destination to see fare, route, and drivers.' : 'Choose a pickup location.');
       if (input.value.trim().length < 3) {
         list.hidden = true;
         input.setAttribute('aria-expanded', 'false');
@@ -158,10 +168,16 @@ export function initBooking(mapController) {
   }
 
   function renderDrivers(drivers) {
+    const shown = (drivers || []).slice(0, 3);
     const previousId = state.selectedDriverId;
+    const preferredId = shown.some((driver) => String(driver._id) === previousId)
+      ? previousId
+      : shown[0]
+        ? String(shown[0]._id)
+        : null;
     driverList.replaceChildren();
     state.selectedDriverId = null;
-    if (!drivers.length) {
+    if (!shown.length) {
       const empty = document.createElement('p');
       empty.className = 'booking-status';
       empty.textContent = 'No available drivers nearby right now.';
@@ -169,7 +185,7 @@ export function initBooking(mapController) {
       return;
     }
 
-    drivers.forEach((driver) => {
+    shown.forEach((driver) => {
       const row = document.createElement('div');
       row.className = 'driver-pick';
       row.dataset.driverId = String(driver._id);
@@ -201,6 +217,7 @@ export function initBooking(mapController) {
         row.setAttribute('aria-pressed', 'true');
         state.selectedDriverId = row.dataset.driverId;
         confirmButton.disabled = !state.preview?.[`${state.rideType}Fares`];
+        mapController.setDrivers(state.mapDrivers.length ? state.mapDrivers : state.nearbyDrivers, state.selectedDriverId);
       };
 
       row.addEventListener('click', () => {
@@ -214,7 +231,7 @@ export function initBooking(mapController) {
       });
       driverList.append(row);
 
-      if (String(driver._id) === previousId || (!previousId && drivers.length === 1)) selectDriver();
+      if (String(driver._id) === preferredId) selectDriver();
     });
   }
 
@@ -240,29 +257,32 @@ export function initBooking(mapController) {
     });
   }
 
-  async function loadNearbyDrivers() {
+  function resetDriverList(message) {
+    state.nearbyDrivers = [];
+    state.selectedDriverId = null;
+    driverList.replaceChildren();
+    const hint = document.createElement('p');
+    hint.className = 'booking-status';
+    hint.textContent = message;
+    driverList.append(hint);
+  }
+
+  async function loadMapDrivers() {
     if (!state.pickup) return;
-    const sequence = ++state.nearbySequence;
-    driverList.textContent = 'Finding nearby drivers...';
+    const sequence = ++state.mapSequence;
     try {
       const { data: result } = await axios.post('/api/v1/trip/nearby', {
         pickupLat: state.pickup.coordinates[0],
         pickupLon: state.pickup.coordinates[1],
+        limit: 20,
+        radiusMeters: 15000,
       });
-      if (sequence !== state.nearbySequence) return;
-      state.nearbyDrivers = result.data.nearbyDrivers || [];
-      mapController.setDrivers(state.nearbyDrivers);
-      renderDrivers(state.nearbyDrivers);
-      if (!state.destination) {
-        status(
-          state.nearbyDrivers.length
-            ? `${state.nearbyDrivers.length} drivers nearby. Enter a destination.`
-            : 'No drivers nearby yet. Enter a destination anyway.',
-        );
-      }
+      if (sequence !== state.mapSequence) return;
+      state.mapDrivers = result.data.nearbyDrivers || [];
+      mapController.setDrivers(state.mapDrivers, state.selectedDriverId);
     } catch (error) {
-      if (sequence !== state.nearbySequence) return;
-      driverList.textContent = error.response?.data?.message || 'Could not load nearby drivers.';
+      if (sequence !== state.mapSequence) return;
+      if (!state.mapDrivers.length) mapController.setDrivers([]);
     }
   }
 
@@ -271,20 +291,22 @@ export function initBooking(mapController) {
       state.preview = null;
       renderFare();
       confirmButton.disabled = true;
+      resetDriverList('Enter a destination to see nearby drivers.');
       status('Choose a pickup location to preview your ride.');
       return;
     }
+    mapController.setPickup(state.pickup.coordinates, { focus: !state.destination, zoom: 12 });
     if (!state.destination) {
       state.preview = null;
       renderFare();
       confirmButton.disabled = true;
-      loadNearbyDrivers();
-      status('Enter a destination to see fare and route.');
+      resetDriverList('Enter a destination to see nearby drivers.');
+      status('Available drivers are on the map. Enter a destination to choose one.');
+      loadMapDrivers();
       return;
     }
     const sequence = ++state.previewSequence;
     confirmButton.disabled = true;
-    mapController.setPickup(state.pickup.coordinates);
     mapController.setDestination(state.destination.coordinates);
     mapController.setRoute(
       {
@@ -294,10 +316,10 @@ export function initBooking(mapController) {
           [state.destination.coordinates[1], state.destination.coordinates[0]],
         ],
       },
-      state.nearbyDrivers,
+      state.mapDrivers,
     );
     status('Calculating fare...');
-    loadNearbyDrivers();
+    loadMapDrivers();
     try {
       const { data: result } = await axios.post('/api/v1/trip/preview', {
         pickupLat: state.pickup.coordinates[0],
@@ -307,13 +329,13 @@ export function initBooking(mapController) {
       });
       if (sequence !== state.previewSequence) return;
       state.preview = result.data;
-      if (result.data.nearbyDrivers?.length) {
-        state.nearbyDrivers = result.data.nearbyDrivers;
-        mapController.setDrivers(state.nearbyDrivers);
-        renderDrivers(state.nearbyDrivers);
-      }
+      const fleet = result.data.nearbyDrivers || state.mapDrivers;
+      state.mapDrivers = fleet;
+      state.nearbyDrivers = fleet.slice(0, 3);
+      mapController.setDrivers(state.mapDrivers, state.selectedDriverId);
+      renderDrivers(state.nearbyDrivers);
       if (state.preview.geometry) {
-        mapController.setRoute(state.preview.geometry, state.nearbyDrivers);
+        mapController.setRoute(state.preview.geometry, state.mapDrivers);
       }
       renderFare();
       status(

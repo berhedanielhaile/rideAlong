@@ -6,6 +6,6 @@ export function initHomepage() {
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    window.location.href = '/signup';
+    window.location.href = form.dataset.next || '/register';
   });
 }

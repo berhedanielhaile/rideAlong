@@ -1,9 +1,10 @@
 const User = require('../model/user-Model');
 
 const radiusMeters = Number(process.env.SEARCH_RADIUS_METERS) || 8000;
-const maxDrivers = Number(process.env.MAX_NEARBY_DRIVERS) || 15;
+const maxDrivers = Number(process.env.MAX_NEARBY_DRIVERS) || 20;
 // Find available drivers near a GeoJSON point.
-exports.findNearbyDrivers = async (lng, lat, searchRadius) => {
+exports.findNearbyDrivers = async (lng, lat, searchRadius, limit) => {
+  const cap = Number(limit) > 0 ? Number(limit) : maxDrivers;
   return User.aggregate([
     {
       // $geoNear must be the first aggregation stage and needs a 2dsphere index.
@@ -24,7 +25,7 @@ exports.findNearbyDrivers = async (lng, lat, searchRadius) => {
       },
     },
 
-    { $limit: maxDrivers },
+    { $limit: cap },
     {
       $project: {
         name: 1,

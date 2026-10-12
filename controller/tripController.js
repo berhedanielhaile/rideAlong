@@ -21,7 +21,7 @@ exports.getTripPreview = catchAsync(async (req, res, next) => {
 
   const [data, nearbyDrivers] = await Promise.all([
     calculateDistanceAndTime(pickupLat, pickupLon, dropoffLat, dropoffLon),
-    findNearbyDrivers(pickupLon, pickupLat),
+    findNearbyDrivers(pickupLon, pickupLat, undefined, 20),
   ]);
 
   res.status(200).json({
@@ -63,7 +63,14 @@ exports.getNearbyDriversPreview = catchAsync(async (req, res, next) => {
     return next(new AppError('pickupLat and pickupLon are required numbers', 400));
   }
 
-  const nearbyDrivers = await findNearbyDrivers(pickupLon, pickupLat);
+  const radius = Number(req.body.radiusMeters);
+  const limit = Number(req.body.limit);
+  const nearbyDrivers = await findNearbyDrivers(
+    pickupLon,
+    pickupLat,
+    Number.isFinite(radius) ? radius : undefined,
+    Number.isFinite(limit) ? limit : 20,
+  );
   res.status(200).json({
     status: 'success',
     data: {
@@ -182,10 +189,12 @@ exports.createTrip = catchAsync(async (req, res, next) => {
   });
 });
 exports.getTrip = catchAsync(async (req, res, next) => {
-  const trip = await Trip.findById(req.params.id).populate({
-    path: 'driver_id',
-    select: 'name driverProfile.rating driverProfile.active_vehicle driverProfile.current_location driverProfile.status',
-  });
+  const trip = await Trip.findById(req.params.id)
+    .populate({
+      path: 'driver_id',
+      select: 'name driverProfile.rating driverProfile.active_vehicle driverProfile.current_location driverProfile.status',
+    })
+    .lean();
   if (!trip) return next(new AppError('Trip not found', 404));
 
   const driverId = trip.driver_id && trip.driver_id._id ? trip.driver_id._id.toString() : trip.driver_id.toString();
@@ -266,6 +275,7 @@ exports.recordMeterReading = catchAsync(async (req, res, next) => {
       status: metric.status,
       meter_serial_number: metric.meter_serial_number,
       recorded_at: metric.recorded_at,
+      location: metric.location,
     };
     await trip.save();
   }
