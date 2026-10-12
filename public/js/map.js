@@ -1,9 +1,7 @@
 /*eslint-disable*/
 
 import L from 'leaflet';
-import { maplibreGL } from '@maplibre/maplibre-gl-leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'maplibre-gl/dist/maplibre-gl.css';
 import markerIconUrl from 'leaflet/dist/images/marker-icon.png';
 import markerIconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import markerShadowUrl from 'leaflet/dist/images/marker-shadow.png';
@@ -21,19 +19,13 @@ export function initMap() {
     keyboard: false,
     boxZoom: false,
   }).setView(fallbackCenter, 13);
-  const rasterStyle = {
-    version: 8,
-    sources: {
-      openstreetmap: {
-        type: 'raster',
-        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-        tileSize: 256,
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      },
-    },
-    layers: [{ id: 'openstreetmap-raster', type: 'raster', source: 'openstreetmap' }],
-  };
-  const styleLayer = maplibreGL({ style: rasterStyle }).addTo(map);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    subdomains: 'abc',
+    maxZoom: 19,
+  }).addTo(map);
+
   const icon = L.icon({
     iconUrl: markerIconUrl,
     iconRetinaUrl: markerIconRetinaUrl,
@@ -60,7 +52,7 @@ export function initMap() {
 
   function setRoute(geometry, nearbyDrivers = []) {
     if (routeLayer) map.removeLayer(routeLayer);
-    routeLayer = L.geoJSON(geometry, { style: { color: '#176b5b', weight: 5, opacity: 0.82 } }).addTo(map);
+    routeLayer = L.geoJSON(geometry, { style: { color: '#0d9488', weight: 5, opacity: 0.85 } }).addTo(map);
     const bounds = routeLayer.getBounds();
     if (pickupMarker) bounds.extend(pickupMarker.getLatLng());
     if (destinationMarker) bounds.extend(destinationMarker.getLatLng());
@@ -78,7 +70,7 @@ export function initMap() {
         radius: 7,
         color: '#fff',
         weight: 2,
-        fillColor: '#e0643b',
+        fillColor: '#0d9488',
         fillOpacity: 1,
       })
         .bindTooltip(`${driver.name} · ${Math.max(1, Math.round(driver.distanceMeters / 250))} min away`)
@@ -101,6 +93,9 @@ export function initMap() {
     }
     driversLayer.clearLayers();
   }
+
+  window.requestAnimationFrame(() => map.invalidateSize());
+  window.addEventListener('resize', () => map.invalidateSize());
 
   return {
     setPickup,

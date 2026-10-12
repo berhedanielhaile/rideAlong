@@ -19,7 +19,8 @@ body {
   font-size: $font-size-base;
   line-height: $line-height-normal;
   color: $text-primary;
-  background-color: $bg-primary;
+  background-color: $bg-app;
+  letter-spacing: -0.011em;
   transition: background-color $transition-base, color $transition-base;
 }
 

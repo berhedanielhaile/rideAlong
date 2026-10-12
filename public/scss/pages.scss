@@ -18,7 +18,7 @@
     content: '';
     position: absolute;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(13, 148, 136, 0.18);
   }
 
   &::before {
@@ -32,6 +32,7 @@
     height: 280px;
     bottom: -120px;
     left: -60px;
+    background: rgba(94, 234, 212, 0.12);
   }
 }
 
@@ -477,7 +478,7 @@ a.list-row {
 .map-route {
   position: absolute;
   inset: 18% 16%;
-  border: 3px dashed rgba(79, 70, 229, 0.45);
+  border: 3px dashed rgba(13, 148, 136, 0.45);
   border-radius: 40% 60% 50% 50%;
 }
 
@@ -504,11 +505,15 @@ a.list-row {
   position: absolute;
   left: 1.25rem;
   bottom: 1.25rem;
-  background: $white;
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
+  max-width: min(420px, calc(100% - 2.5rem));
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid $border-light;
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
   box-shadow: $shadow-md;
   font-size: 0.85rem;
+  z-index: 400;
 }
 
 .side-panel {
@@ -583,8 +588,9 @@ a.list-row {
   }
 
   &.active {
-    border-color: $ink;
-    background: $gray-50;
+    border-color: $brand-primary;
+    background: #f0fdfa;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
   }
 }
 
@@ -602,8 +608,9 @@ a.list-row {
   text-align: left;
 
   &.selected {
-    border-color: $ink;
-    background: $gray-50;
+    border-color: $brand-primary;
+    background: #f0fdfa;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
   }
 }
 

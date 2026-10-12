@@ -15,9 +15,11 @@ export function initBooking(mapController) {
     pickup: null,
     destination: null,
     preview: null,
+    nearbyDrivers: [],
     selectedDriverId: null,
     rideType: 'standard',
     previewSequence: 0,
+    nearbySequence: 0,
   };
 
   function status(message, isError = false) {
@@ -145,7 +147,7 @@ export function initBooking(mapController) {
             status('Location suggestions are unavailable. Please try again.', true);
           }
         }
-      }, 400);
+      }, 250);
     });
     input.addEventListener('blur', () => {
       window.setTimeout(() => {
@@ -156,6 +158,7 @@ export function initBooking(mapController) {
   }
 
   function renderDrivers(drivers) {
+    const previousId = state.selectedDriverId;
     driverList.replaceChildren();
     state.selectedDriverId = null;
     if (!drivers.length) {
@@ -211,7 +214,7 @@ export function initBooking(mapController) {
       });
       driverList.append(row);
 
-      if (drivers.length === 1) selectDriver();
+      if (String(driver._id) === previousId || (!previousId && drivers.length === 1)) selectDriver();
     });
   }
 
@@ -237,24 +240,64 @@ export function initBooking(mapController) {
     });
   }
 
+  async function loadNearbyDrivers() {
+    if (!state.pickup) return;
+    const sequence = ++state.nearbySequence;
+    driverList.textContent = 'Finding nearby drivers...';
+    try {
+      const { data: result } = await axios.post('/api/v1/trip/nearby', {
+        pickupLat: state.pickup.coordinates[0],
+        pickupLon: state.pickup.coordinates[1],
+      });
+      if (sequence !== state.nearbySequence) return;
+      state.nearbyDrivers = result.data.nearbyDrivers || [];
+      mapController.setDrivers(state.nearbyDrivers);
+      renderDrivers(state.nearbyDrivers);
+      if (!state.destination) {
+        status(
+          state.nearbyDrivers.length
+            ? `${state.nearbyDrivers.length} drivers nearby. Enter a destination.`
+            : 'No drivers nearby yet. Enter a destination anyway.',
+        );
+      }
+    } catch (error) {
+      if (sequence !== state.nearbySequence) return;
+      driverList.textContent = error.response?.data?.message || 'Could not load nearby drivers.';
+    }
+  }
+
   async function updatePreview() {
-    if (!state.pickup || !state.destination) {
+    if (!state.pickup) {
       state.preview = null;
-      state.selectedDriverId = null;
       renderFare();
       confirmButton.disabled = true;
-      status(
-        state.pickup ? 'Enter a destination to see suggestions.' : 'Choose a pickup location to preview your ride.',
-      );
+      status('Choose a pickup location to preview your ride.');
+      return;
+    }
+    if (!state.destination) {
+      state.preview = null;
+      renderFare();
+      confirmButton.disabled = true;
+      loadNearbyDrivers();
+      status('Enter a destination to see fare and route.');
       return;
     }
     const sequence = ++state.previewSequence;
-    state.preview = null;
-    state.selectedDriverId = null;
     confirmButton.disabled = true;
-    renderFare();
-    driverList.textContent = 'Updating nearby drivers...';
-    status('Calculating route and nearby drivers...');
+    mapController.setPickup(state.pickup.coordinates);
+    mapController.setDestination(state.destination.coordinates);
+    mapController.setRoute(
+      {
+        type: 'LineString',
+        coordinates: [
+          [state.pickup.coordinates[1], state.pickup.coordinates[0]],
+          [state.destination.coordinates[1], state.destination.coordinates[0]],
+        ],
+      },
+      state.nearbyDrivers,
+    );
+    status('Calculating fare...');
+    loadNearbyDrivers();
     try {
       const { data: result } = await axios.post('/api/v1/trip/preview', {
         pickupLat: state.pickup.coordinates[0],
@@ -264,11 +307,14 @@ export function initBooking(mapController) {
       });
       if (sequence !== state.previewSequence) return;
       state.preview = result.data;
-      mapController.setPickup(state.pickup.coordinates);
-      mapController.setDestination(state.destination.coordinates);
-      mapController.setDrivers(state.preview.nearbyDrivers);
-      mapController.setRoute(state.preview.geometry, state.preview.nearbyDrivers);
-      renderDrivers(state.preview.nearbyDrivers);
+      if (result.data.nearbyDrivers?.length) {
+        state.nearbyDrivers = result.data.nearbyDrivers;
+        mapController.setDrivers(state.nearbyDrivers);
+        renderDrivers(state.nearbyDrivers);
+      }
+      if (state.preview.geometry) {
+        mapController.setRoute(state.preview.geometry, state.nearbyDrivers);
+      }
       renderFare();
       status(
         `${state.preview.totalDistance} km · ${state.preview.totalDuration} · ${state.pickup.label} to ${state.destination.label}`,
@@ -280,7 +326,6 @@ export function initBooking(mapController) {
       renderFare();
       const message = error.response?.data?.message || error.message || 'Unable to preview this ride.';
       status(message, true);
-      driverList.textContent = message;
     }
   }
 
@@ -335,32 +380,29 @@ export function initBooking(mapController) {
       }
     });
 
-  status('Finding your current location. Enter a destination to see suggestions.');
+  const addisCenter = [9.0371, 38.7533];
 
-  function usePickup(coordinates, label) {
+  function usePickup(coordinates, label, reverse = true) {
     state.pickup = { coordinates, label };
     pickupInput.value = label;
     mapController.setPickup(coordinates);
     updatePreview();
+    if (!reverse) return;
     reverseGeocode(coordinates).then((address) => {
       if (!address || state.pickup?.coordinates !== coordinates) return;
       state.pickup.label = address;
       pickupInput.value = address;
-      updatePreview();
     });
   }
+
+  usePickup(addisCenter, 'Bole, Addis Ababa', false);
+  pickupInput.placeholder = 'Enter pickup location';
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => usePickup([coords.latitude, coords.longitude], 'Current location'),
-      () => {
-        pickupInput.placeholder = 'Enter pickup location';
-        status('Could not access your current location. Enter a pickup location instead.', true);
-      },
-      { enableHighAccuracy: true, maximumAge: 300000, timeout: 8000 },
+      () => {},
+      { enableHighAccuracy: false, maximumAge: 300000, timeout: 2500 },
     );
-  } else {
-    pickupInput.placeholder = 'Enter pickup location';
-    status('Location is unavailable in this browser. Enter a pickup location instead.', true);
   }
 }

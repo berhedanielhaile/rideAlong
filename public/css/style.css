@@ -1,5 +1,5 @@
 :root {
-  --brand: #4f46e5;
+  --brand: #0d9488;
   --ink: #0b1220;
   --text: #0b1220;
   --text-muted: #5b6472;
@@ -24,11 +24,12 @@ html {
 }
 
 body {
-  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   color: #0b1220;
-  background-color: #ffffff;
+  background-color: #f4f5f7;
+  letter-spacing: -0.011em;
   transition: background-color 200ms cubic-bezier(0.2, 0, 0, 1), color 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
@@ -73,12 +74,12 @@ p:last-child {
 }
 
 a {
-  color: #4f46e5;
+  color: #0d9488;
   text-decoration: none;
   transition: color 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 a:hover {
-  color: #3730a3;
+  color: #0f766e;
 }
 
 strong {
@@ -106,7 +107,7 @@ li {
 blockquote {
   margin: 1.5rem 0;
   padding-left: 1.5rem;
-  border-left: 4px solid #4f46e5;
+  border-left: 4px solid #0d9488;
   color: #5b6472;
   font-style: italic;
 }
@@ -351,7 +352,7 @@ img {
   transition: all 200ms cubic-bezier(0.2, 0, 0, 1);
   white-space: nowrap;
   user-select: none;
-  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -361,7 +362,7 @@ img {
   cursor: not-allowed;
 }
 .btn:focus-visible {
-  outline: 2px solid #4f46e5;
+  outline: 2px solid #0d9488;
   outline-offset: 2px;
 }
 
@@ -420,17 +421,17 @@ img {
 }
 
 .btn-accent {
-  background-color: #4f46e5;
+  background-color: #0d9488;
   color: #ffffff;
   box-shadow: 0 1px 3px rgba(11, 18, 32, 0.06), 0 1px 2px rgba(11, 18, 32, 0.04);
 }
 .btn-accent:hover:not(:disabled) {
-  background-color: #3730a3;
+  background-color: #0f766e;
   box-shadow: 0 8px 20px rgba(11, 18, 32, 0.06);
   transform: translateY(-1px);
 }
 .btn-accent:active:not(:disabled) {
-  background-color: #3730a3;
+  background-color: #0f766e;
   transform: translateY(0);
 }
 
@@ -523,7 +524,7 @@ textarea {
   width: 100%;
   padding: 1rem;
   font-size: 1rem;
-  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   border: 1px solid #e4e7ec;
   border-radius: 10px;
   background-color: #ffffff;
@@ -541,7 +542,7 @@ input[type=search]:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: #4f46e5;
+  border-color: #0d9488;
   box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
 }
 input[type=text]:disabled,
@@ -1501,8 +1502,8 @@ input[type=radio] {
 
 .site-header,
 header.site-header {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(18px);
   border-bottom: 1px solid #e4e7ec;
   position: sticky;
   top: 0;
@@ -2736,7 +2737,7 @@ footer.site-footer a:hover {
   content: "";
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(13, 148, 136, 0.18);
 }
 .marketing-hero::before {
   width: 420px;
@@ -2749,6 +2750,7 @@ footer.site-footer a:hover {
   height: 280px;
   bottom: -120px;
   left: -60px;
+  background: rgba(94, 234, 212, 0.12);
 }
 
 .marketing-hero__inner {
@@ -2865,7 +2867,7 @@ footer.site-footer a:hover {
   background: #0b1220;
 }
 .location-field .dot.dest {
-  background: #4f46e5;
+  background: #0d9488;
   border-radius: 2px;
 }
 
@@ -3149,7 +3151,7 @@ a.list-row {
   border-radius: 8px;
   background: #ffffff;
   color: #0b1220;
-  font: 600 0.8rem "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  font: 600 0.8rem "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   box-shadow: 0 1px 3px rgba(11, 18, 32, 0.06), 0 1px 2px rgba(11, 18, 32, 0.04);
   cursor: pointer;
 }
@@ -3157,16 +3159,16 @@ a.list-row {
 .leaflet-control-attribution {
   color: #5b6472;
   background: rgba(255, 255, 255, 0.92);
-  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   border-radius: 4px 0 0 0;
 }
 .leaflet-control-attribution a {
-  color: #4f46e5;
+  color: #0d9488;
 }
 
 .map-canvas {
   position: relative;
-  background: linear-gradient(180deg, #dbeafe 0%, #e2e8f0 55%, #f8fafc 100%);
+  background: linear-gradient(180deg, #ccfbf1 0%, #e2e8f0 55%, #f8fafc 100%);
   overflow: hidden;
   min-height: 320px;
 }
@@ -3174,7 +3176,7 @@ a.list-row {
 .map-route {
   position: absolute;
   inset: 18% 16%;
-  border: 3px dashed rgba(79, 70, 229, 0.45);
+  border: 3px dashed rgba(13, 148, 136, 0.45);
   border-radius: 40% 60% 50% 50%;
 }
 
@@ -3193,18 +3195,22 @@ a.list-row {
 .map-pin.b {
   bottom: 26%;
   right: 22%;
-  background: #4f46e5;
+  background: #0d9488;
 }
 
 .map-caption {
   position: absolute;
   left: 1.25rem;
   bottom: 1.25rem;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
+  max-width: min(420px, 100% - 2.5rem);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid #eef0f3;
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
   box-shadow: 0 8px 20px rgba(11, 18, 32, 0.06);
   font-size: 0.85rem;
+  z-index: 400;
 }
 
 .side-panel {
@@ -3278,8 +3284,9 @@ a.list-row {
   font-size: 0.75rem;
 }
 .ride-option.active {
-  border-color: #0b1220;
-  background: #f6f7f9;
+  border-color: #0d9488;
+  background: #f0fdfa;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
 }
 
 .driver-pick {
@@ -3296,8 +3303,9 @@ a.list-row {
   text-align: left;
 }
 .driver-pick.selected {
-  border-color: #0b1220;
-  background: #f6f7f9;
+  border-color: #0d9488;
+  background: #f0fdfa;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
 }
 
 .avatar {
@@ -3420,7 +3428,7 @@ a.list-row {
   background: #059669;
 }
 .bullet.now {
-  background: #4f46e5;
+  background: #0d9488;
   box-shadow: 0 0 0 5px rgba(79, 70, 229, 0.15);
 }
 

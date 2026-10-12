@@ -503,6 +503,185 @@ function estimateFare(distance) {
   return baseFare + (distance * perKmRate);
 }
 
+const extraPassengerBlueprints = [
+  ['Helen Desta', 'helen.desta@email.com', '+251916100001', 'telebirr', 'Gerji'],
+  ['Dawit Bekele', 'dawit.bekele@email.com', '+251916100002', 'wallet', 'Bole'],
+  ['Selamawit Tadesse', 'selam.tadesse@email.com', '+251916100003', 'visa', 'CMC'],
+  ['Nahom Girma', 'nahom.girma@email.com', '+251916100004', 'cbe_bank', 'Piassa'],
+  ['Liya Mekonnen', 'liya.mekonnen@email.com', '+251916100005', 'telebirr', 'Saris'],
+  ['Biruk Assefa', 'biruk.assefa@email.com', '+251916100006', 'wallet', 'Mexico Square'],
+  ['Hana Worku', 'hana.worku@email.com', '+251916100007', 'visa', 'Megenagna'],
+  ['Samuel Getachew', 'samuel.getachew@email.com', '+251916100008', 'telebirr', 'Airport'],
+  ['Rahel Solomon', 'rahel.solomon@email.com', '+251916100009', 'wallet', '4 Kilo'],
+  ['Elias Fekadu', 'elias.fekadu@email.com', '+251916100010', 'cbe_bank', 'Meskel Square'],
+];
+
+const extraDriverBlueprints = [
+  ['Meron Hailu', 'meron.driver@email.com', '+251917200001', 'available', 'Bole', 'standard', 'Toyota Vitz', 'White', 'AA 101 AAA'],
+  ['Tewodros Alemu', 'teddy.driver@email.com', '+251917200002', 'available', 'CMC', 'comfort', 'Honda Fit', 'Silver', 'AA 102 BBB'],
+  ['Bethel Tadesse', 'bethel.driver@email.com', '+251917200003', 'available', 'Piassa', 'standard', 'Suzuki Swift', 'Blue', 'AA 103 CCC'],
+  ['Kidus Mekonnen', 'kidus.driver@email.com', '+251917200004', 'available', 'Mexico Square', 'premium', 'Toyota Camry', 'Black', 'AA 104 DDD'],
+  ['Saron Abebe', 'saron.driver@email.com', '+251917200005', 'available', 'Meskel Square', 'standard', 'Hyundai Accent', 'White', 'AA 105 EEE'],
+  ['Henok Desta', 'henok.driver@email.com', '+251917200006', 'available', 'Saris', 'comfort', 'Kia Rio', 'Grey', 'AA 106 FFF'],
+  ['Mulu Workneh', 'mulu.driver@email.com', '+251917200007', 'available', 'Megenagna', 'standard', 'Toyota Yaris', 'Red', 'AA 107 GGG'],
+  ['Abel Tesfaye', 'abel.driver@email.com', '+251917200008', 'available', 'Airport', 'premium', 'Toyota Corolla', 'White', 'AA 108 HHH'],
+  ['Frehiwot Girma', 'frehiwot.driver@email.com', '+251917200009', 'on_trip', 'Kazanchis', 'comfort', 'Honda Civic', 'Black', 'AA 109 III'],
+  ['Yonas Kebede', 'yonas.driver@email.com', '+251917200010', 'break', 'Gerji', 'standard', 'Nissan Sunny', 'Silver', 'AA 110 JJJ'],
+  ['Mahiya Nur', 'mahiya.driver@email.com', '+251917200011', 'offline', '4 Kilo', 'standard', 'Suzuki Dzire', 'White', 'AA 111 KKK'],
+  ['Bereket Lemma', 'bereket.driver@email.com', '+251917200012', 'available', 'Lafto', 'comfort', 'Hyundai i20', 'Blue', 'AA 112 LLL'],
+];
+
+const locationByName = Object.fromEntries(MOCK_DATA.locations.map((place) => [place.name, place]));
+
+extraPassengerBlueprints.forEach(([name, email, phoneNumber, payment, home], index) => {
+  const place = locationByName[home] || MOCK_DATA.locations[index % MOCK_DATA.locations.length];
+  MOCK_DATA.passengers.push({
+    id: `P${String(index + 6).padStart(3, '0')}`,
+    name,
+    email,
+    phoneNumber,
+    role: 'passenger',
+    createdAt: new Date(`2025-0${(index % 9) + 1}-12`),
+    passengerProfile: {
+      default_payment_method: payment,
+      saved_Places: [{ name: 'Home', adress: `${place.name}, Addis Ababa`, coordinates: place.coordinates }],
+      total_rides: 12 + index * 7,
+      rating: 4.5 + (index % 5) * 0.1,
+      wallet_balance: 800 + index * 250,
+      wallet_history: [
+        {
+          type: 'topup',
+          amount: 800 + index * 250,
+          note: 'Seed Telebirr top-up',
+          createdAt: new Date('2026-10-01T09:00:00'),
+        },
+      ],
+    },
+  });
+});
+
+MOCK_DATA.passengers.forEach((passenger, index) => {
+  if (passenger.passengerProfile.wallet_balance != null) return;
+  passenger.passengerProfile.wallet_balance = 1500 + index * 400;
+  passenger.passengerProfile.wallet_history = [
+    {
+      type: 'topup',
+      amount: 1500 + index * 400,
+      note: 'Seed wallet balance',
+      createdAt: new Date('2026-09-20T08:00:00'),
+    },
+  ];
+});
+
+extraDriverBlueprints.forEach(([name, email, phoneNumber, status, area, rideType, model, color, plate], index) => {
+  const place = locationByName[area] || MOCK_DATA.locations[index % MOCK_DATA.locations.length];
+  const jitter = ((index % 4) - 1.5) * 0.004;
+  MOCK_DATA.vehicles.push({
+    id: `VEH${String(index + 6).padStart(3, '0')}`,
+    plate_number: plate,
+    model,
+    color,
+    year: 2021 + (index % 4),
+    meter_serial_number: `METER-${String(index + 6).padStart(3, '0')}-2026`,
+    type: 'sedan',
+    capacity: 4,
+  });
+  MOCK_DATA.drivers.push({
+    id: `D${String(index + 6).padStart(3, '0')}`,
+    name,
+    email,
+    phoneNumber,
+    role: 'driver',
+    createdAt: new Date(`2024-0${(index % 9) + 1}-18`),
+    driverProfile: {
+      license_number: `ET-DR-${String(index + 6).padStart(3, '0')}-2024`,
+      status,
+      rating: 4.4 + (index % 6) * 0.1,
+      total_trips: 80 + index * 18,
+      current_location: {
+        type: 'Point',
+        coordinates: [place.coordinates[0] + jitter, place.coordinates[1] + jitter / 2],
+      },
+      active_vehicle: {
+        plate_number: plate,
+        model,
+        color,
+        year: 2021 + (index % 4),
+        meter_serial_number: `METER-${String(index + 6).padStart(3, '0')}-2026`,
+        ride_type: rideType,
+      },
+    },
+  });
+});
+
+const extraRideBlueprints = [
+  ['RID006', 'P001', 'D001', 'Bole', 'Airport', 'completed', 'wallet', 2026, 10, 8, 8, 32, 18.2, 268],
+  ['RID007', 'P002', 'D002', 'Piassa', 'Kazanchis', 'completed', 'cash', 2026, 10, 9, 12, 18, 6.4, 118],
+  ['RID008', 'P006', 'D006', 'Gerji', 'Bole', 'completed', 'wallet', 2026, 10, 10, 7, 22, 9.1, 154],
+  ['RID009', 'P007', 'D007', 'CMC', 'Megenagna', 'completed', 'card', 2026, 10, 11, 18, 40, 5.8, 132],
+  ['RID010', 'P003', 'D008', 'Mexico Square', '4 Kilo', 'cancelled', 'cash', 2026, 10, 11, 9, 5, 4.1, 0],
+  ['RID011', 'P008', 'D009', 'Saris', 'Airport', 'requested', 'cash', 2026, 10, 12, 9, 0, 11.4, 186],
+  ['RID012', 'P001', 'D010', 'Bole', 'Kazanchis', 'accepted', 'wallet', 2026, 10, 12, 10, 8, 8.5, 145],
+  ['RID013', 'P009', 'D014', 'Megenagna', 'Bole', 'arrived', 'mobile_money', 2026, 10, 12, 11, 15, 7.2, 138],
+  ['RID014', 'P010', 'D003', 'Airport', 'Bole', 'picked_up', 'cash', 2026, 10, 12, 14, 22, 12.6, 210],
+  ['RID015', 'P011', 'D008', '4 Kilo', 'Piassa', 'picked_up', 'wallet', 2026, 10, 12, 16, 18, 6.9, 128],
+  ['RID016', 'P005', 'D005', 'CMC', 'Gerji', 'completed', 'wallet', 2026, 10, 7, 19, 28, 4.8, 98],
+  ['RID017', 'P012', 'D012', 'Lafto', 'Meskel Square', 'completed', 'cash', 2026, 10, 6, 13, 35, 10.3, 176],
+  ['RID018', 'P004', 'D011', 'Kazanchis', 'Saris', 'cancelled', 'cash', 2026, 10, 5, 21, 4, 9.7, 0],
+  ['RID019', 'P015', 'D001', 'Meskel Square', 'Airport', 'completed', 'wallet', 2026, 10, 4, 6, 48, 16.1, 242],
+  ['RID020', 'P001', 'D006', 'Bole', 'Piassa', 'completed', 'cash', 2026, 10, 3, 17, 16, 3.4, 78],
+];
+
+extraRideBlueprints.forEach((row) => {
+  const [id, passengerId, driverId, pickupName, dropoffName, status, payment, year, month, day, hour, minutes, distance, fare] = row;
+  const pickup = locationByName[pickupName];
+  const dropoff = locationByName[dropoffName];
+  const pickupTime = new Date(Date.UTC(year, month - 1, day, hour - 3, 10, 0));
+  const dropoffTime = new Date(pickupTime.getTime() + minutes * 60 * 1000);
+  MOCK_DATA.rides.push({
+    id,
+    passenger_id: passengerId,
+    driver_id: driverId,
+    pickup_location: { name: pickupName, coordinates: pickup.coordinates },
+    dropoff_location: { name: dropoffName, coordinates: dropoff.coordinates },
+    pickup_time: pickupTime,
+    dropoff_time: dropoffTime,
+    distance,
+    fare,
+    commission: Number((fare * 0.15).toFixed(2)),
+    driver_earnings: Number((fare * 0.85).toFixed(2)),
+    status,
+    payment_method: payment,
+    rating: status === 'completed' ? 5 : null,
+    review: status === 'completed' ? 'Seeded trip for flow testing' : null,
+    ride_type: 'standard',
+    meter:
+      status === 'picked_up' || status === 'arrived'
+        ? {
+            fare: Math.round(fare * 0.55),
+            distance_km: Number((distance * 0.45).toFixed(2)),
+            waiting_seconds: 90,
+            extras: 0,
+            status: 'hired',
+            meter_serial_number: 'METER-LIVE',
+            recorded_at: pickupTime,
+          }
+        : undefined,
+  });
+});
+
+MOCK_DATA.rides.forEach((ride) => {
+  if (ride.pickup_time.getFullYear() < 2026) {
+    ride.pickup_time = new Date(ride.pickup_time);
+    ride.pickup_time.setFullYear(2026);
+    ride.pickup_time.setMonth(9);
+    ride.dropoff_time = new Date(ride.dropoff_time);
+    ride.dropoff_time.setFullYear(2026);
+    ride.dropoff_time.setMonth(9);
+  }
+  if (!ride.payment_method) ride.payment_method = 'cash';
+});
+
 function calculateETA(distance) {
   // Assume average speed of 30 km/h in city
   return Math.ceil(distance / 30 * 60);

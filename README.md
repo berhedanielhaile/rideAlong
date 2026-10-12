@@ -10,7 +10,7 @@ Metered ride-hailing for Addis Ababa. Riders book a trip, see the fare, and trac
 - MongoDB / Mongoose
 - JWT cookies
 - Sass + Parcel (client JS)
-- Leaflet / MapLibre, Photon geocoding, OSRM routing
+- Leaflet + Carto tiles, Photon geocoding, OSRM routing with a local fallback
 
 ## Run locally
 
@@ -65,7 +65,24 @@ npm run watch:css
 npm run watch:js
 ```
 
-Demo seed data (optional): `dev-data/import-dev-data.js`. Seeded accounts use `password123`.
+## Demo seed data
+
+```bash
+node dev-data/import-dev-data.js --import
+```
+
+`--import` replaces seed accounts only (not other users in the database). Password for every seed account is `password123`.
+
+| Role | Email | What to check |
+|---|---|---|
+| Rider | `sarah.johnson@email.com` | Dashboard, book, history, wallet |
+| Rider | `dawit.bekele@email.com` | Wallet-funded passenger |
+| Driver | `addis.alemayehu@email.com` | Available near Bole |
+| Driver | `yohannes.driver@email.com` | On a live trip with meter pings |
+| Driver | `yonas.driver@email.com` | On break |
+| Driver | `abebe.driver@email.com` | Offline |
+
+Seeded trips cover requested, accepted, arrived, picked up, completed, and cancelled so dashboard, history, tracking, earnings, and the in-car meter path all have data.
 
 ## License
 

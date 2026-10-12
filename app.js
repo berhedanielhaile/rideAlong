@@ -34,6 +34,9 @@ app.use(
         connectSrc: [
           "'self'",
           'https://tile.openstreetmap.org',
+          'https://a.tile.openstreetmap.org',
+          'https://b.tile.openstreetmap.org',
+          'https://c.tile.openstreetmap.org',
           'https://photon.komoot.io',
           'https://router.project-osrm.org',
           ...(process.env.NODE_ENV === 'production' ? [] : ['ws://127.0.0.1:*']),

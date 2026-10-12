@@ -19,8 +19,10 @@ exports.getTripPreview = catchAsync(async (req, res, next) => {
     return next(new AppError('pickupLat, pickupLon, dropoffLat and dropoffLon are required numbers', 400));
   }
 
-  const data = await calculateDistanceAndTime(pickupLat, pickupLon, dropoffLat, dropoffLon);
-  const nearbyDrivers = await findNearbyDrivers(pickupLon, pickupLat);
+  const [data, nearbyDrivers] = await Promise.all([
+    calculateDistanceAndTime(pickupLat, pickupLon, dropoffLat, dropoffLon),
+    findNearbyDrivers(pickupLon, pickupLat),
+  ]);
 
   res.status(200).json({
     status: 'success',
@@ -43,6 +45,28 @@ exports.getTripPreview = catchAsync(async (req, res, next) => {
         perMinute: envNumber('FARE_PER_MINUTE_PREMIUM'),
       }),
       geometry: data.geometry,
+      nearbyDrivers: nearbyDrivers.map((driver) => ({
+        _id: driver._id,
+        name: driver.name,
+        rating: driver.driverProfile?.rating,
+        distanceMeters: driver.distanceMeters,
+        location: driver.driverProfile?.current_location?.coordinates,
+      })),
+    },
+  });
+});
+
+exports.getNearbyDriversPreview = catchAsync(async (req, res, next) => {
+  const pickupLat = Number(req.body.pickupLat);
+  const pickupLon = Number(req.body.pickupLon);
+  if (![pickupLat, pickupLon].every(Number.isFinite)) {
+    return next(new AppError('pickupLat and pickupLon are required numbers', 400));
+  }
+
+  const nearbyDrivers = await findNearbyDrivers(pickupLon, pickupLat);
+  res.status(200).json({
+    status: 'success',
+    data: {
       nearbyDrivers: nearbyDrivers.map((driver) => ({
         _id: driver._id,
         name: driver.name,
@@ -80,7 +104,10 @@ exports.createTrip = catchAsync(async (req, res, next) => {
       new AppError('Invalid coordinates. Latitude must be between -90 and 90, longitude between -180 and 180', 400),
     );
   }
-  const nearbyDrivers = await findNearbyDrivers(pickupLon, pickupLat);
+  const [nearbyDrivers, data] = await Promise.all([
+    findNearbyDrivers(pickupLon, pickupLat),
+    calculateDistanceAndTime(pickupLat, pickupLon, dropoffLat, dropoffLon),
+  ]);
 
   // 3) Check if drivers are available
   if (!nearbyDrivers || nearbyDrivers.length === 0)
@@ -99,10 +126,7 @@ exports.createTrip = catchAsync(async (req, res, next) => {
     return next(new AppError('The selected driver is no longer available. Please choose another driver.', 409));
   }
 
-  // 5) Calculate distance and time
-  const data = await calculateDistanceAndTime(pickupLat, pickupLon, dropoffLat, dropoffLon);
-
-  // 6) Build trip data with metrics
+  // 5) Build trip data with metrics
   const tripData = {
     passenger_id: req.user.id,
     driver_id: driver._id,

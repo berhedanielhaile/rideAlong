@@ -1,7 +1,7 @@
 const User = require('../model/user-Model');
 
-const radiusMeters = Number(process.env.SEARCH_RADIUS_METERS) || 3000;
-const maxDrivers = Number(process.env.MAX_NEARBY_DRIVERS) || 10;
+const radiusMeters = Number(process.env.SEARCH_RADIUS_METERS) || 8000;
+const maxDrivers = Number(process.env.MAX_NEARBY_DRIVERS) || 15;
 // Find available drivers near a GeoJSON point.
 exports.findNearbyDrivers = async (lng, lat, searchRadius) => {
   return User.aggregate([

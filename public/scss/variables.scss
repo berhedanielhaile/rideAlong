@@ -4,10 +4,10 @@
 // ============================================
 
 // Brand
-$brand-primary: #4f46e5;
-$brand-secondary: #6366f1;
-$brand-dark: #3730a3;
-$brand-light: #818cf8;
+$brand-primary: #0d9488;
+$brand-secondary: #14b8a6;
+$brand-dark: #0f766e;
+$brand-light: #5eead4;
 $ink: #0b1220;
 $ink-soft: #1e293b;
 
@@ -30,9 +30,9 @@ $gray-600: #5b6472;
 $gray-700: #3f4754;
 $gray-800: #2a3140;
 
-$accent-blue: #4f46e5;
-$accent-blue-dark: #3730a3;
-$accent-blue-light: #818cf8;
+$accent-blue: #0d9488;
+$accent-blue-dark: #0f766e;
+$accent-blue-light: #5eead4;
 
 $success: #059669;
 $success-light: #d1fae5;
@@ -65,7 +65,7 @@ $border: #e4e7ec;
 $border-light: #eef0f3;
 $border-dark: #d5d9e0;
 
-$font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif;
+$font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
 $font-family-mono: 'SFMono-Regular', 'Menlo', 'Monaco', 'Courier New', monospace;
 
 $font-weight-normal: 400;
@@ -149,10 +149,10 @@ $ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 $ease-linear: linear;
 
 $gradient-primary: linear-gradient(135deg, $ink 0%, $ink-soft 100%);
-$gradient-brand: linear-gradient(135deg, $brand-primary 0%, #7c3aed 100%);
+$gradient-brand: linear-gradient(135deg, $brand-primary 0%, #115e59 100%);
 $gradient-success: linear-gradient(135deg, $success 0%, #047857 100%);
 $gradient-error: linear-gradient(135deg, $error 0%, #b91c1c 100%);
-$gradient-map: linear-gradient(180deg, #dbeafe 0%, #e2e8f0 55%, #f8fafc 100%);
+$gradient-map: linear-gradient(180deg, #ccfbf1 0%, #e2e8f0 55%, #f8fafc 100%);
 
 :root {
   --brand: #{$brand-primary};

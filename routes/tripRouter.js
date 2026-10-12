@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   getTripPreview,
+  getNearbyDriversPreview,
   createTrip,
   getTrip,
   acceptTrip,
@@ -14,6 +15,7 @@ const router = express.Router({ mergeParams: true });
 
 router.use(protect);
 router.route('/preview').post(getTripPreview);
+router.route('/nearby').post(getNearbyDriversPreview);
 router.route('/').post(restrictTo('passenger'), createTrip);
 router.route('/:id').get(getTrip);
 router.route('/:id/accept').patch(restrictTo('driver'), acceptTrip);
