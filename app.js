@@ -14,7 +14,19 @@ const tripRouter = require('./routes/tripRouter');
 const viewRouter = require('./routes/viewRoute');
 const globalErrorHandler = require('./controller/errorController');
 
+const connectDB = require('./utils/connectDB');
+
 const app = express();
+app.set('trust proxy', 1);
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // 1) GLOBAL MIDDLEWARES
 

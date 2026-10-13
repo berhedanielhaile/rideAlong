@@ -7,10 +7,13 @@ const AppError = require('../utils/AppError');
 const Email = require('../utils/email');
 
 // ── Helper: create JWT and send it as an HTTPOnly cookie ──
-const signToken = (id) =>
-  jwt.sign({ id }, process.env.JWTSECRET.trim(), {
-    expiresIn: process.env.JWTEXPIRESIN,
+const signToken = (id) => {
+  const secret = process.env.JWTSECRET;
+  if (!secret) throw new AppError('JWTSECRET is not configured on the server', 500);
+  return jwt.sign({ id }, secret.trim(), {
+    expiresIn: process.env.JWTEXPIRESIN || '90d',
   });
+};
 
 const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
@@ -22,8 +25,7 @@ const createSendToken = (user, statusCode, req, res) => {
     sameSite: 'lax', // CSRF protection
   };
 
-  // Only send secure cookies over HTTPS in production
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' || req.secure || req.get('x-forwarded-proto') === 'https') {
     cookieOptions.secure = true;
   }
 
@@ -62,12 +64,9 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   // 4) Send welcome email
   const url = `${req.protocol}://${req.get('host')}/`;
-  try {
-    await new Email(newUser, url).sendWelcome();
-  } catch (err) {
-    // Continue even if email fails
+  new Email(newUser, url).sendWelcome().catch((err) => {
     console.log('Error sending welcome email:', err.message);
-  }
+  });
 
   // 5) Create JWT token and send as HTTPOnly cookie
   const { token } = createSendToken(newUser, 201, req, res);
@@ -174,6 +173,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (!token) {
     return next(new AppError('You are not logged in! Please log in to get access.', 401));
   }
+  if (!process.env.JWTSECRET) {
+    return next(new AppError('JWTSECRET is not configured on the server', 500));
+  }
 
   // 2) Verify token
   let decoded;
@@ -202,7 +204,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 // ── IS LOGGED IN (non-blocking check for rendered pages) ──
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
-  if (req.cookies.jwt && req.cookies.jwt !== 'loggedout') {
+  if (req.cookies.jwt && req.cookies.jwt !== 'loggedout' && process.env.JWTSECRET) {
     // 2) Verify token
     let decoded;
     try {

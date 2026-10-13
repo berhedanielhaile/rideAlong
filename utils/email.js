@@ -7,19 +7,19 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Daniel haile <${process.env.EMAIL_FROM}>`;
+    this.from = process.env.MAIL_FROM || `rideAlong <${process.env.EMAIL_FROM}>`;
   }
 
   //create a transporter
   newTransport() {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.RESEND_API_KEY) {
       return nodemailer.createTransport({
-        host: process.env.RESEND_EMAIL_HOST, // smtp.resend.com
-        port: process.env.RESEND_EMAIL_PORT, // 465
-        secure: true, // true for 465, false for other ports
+        host: process.env.RESEND_EMAIL_HOST || 'smtp.resend.com',
+        port: Number(process.env.RESEND_EMAIL_PORT) || 465,
+        secure: true,
         auth: {
-          user: process.env.RESEND_EMAIL_USERNAME, // 'resend'
-          pass: process.env.RESEND_API_KEY, // Your re_... API key
+          user: process.env.RESEND_EMAIL_USERNAME || 'resend',
+          pass: process.env.RESEND_API_KEY,
         },
       });
     }
