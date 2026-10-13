@@ -6,47 +6,64 @@ block content
       #map(role='application' aria-label='Map showing your pickup, destination and nearby drivers')
       .map-caption#map-caption(aria-live='polite')
         strong Enter a destination to preview your ride.
-    aside.side-panel
+    aside.side-panel.booking-panel
       .side-panel__head
-        h2 Book a ride
-        .location-stack
-          .location-autocomplete
-            label.location-field(for='pickup')
-              span.dot
-              input#pickup(type='text' placeholder='Finding your current location...' autocomplete='off' aria-label='Pickup location' aria-controls='pickup-suggestions' aria-expanded='false')
-            #pickup-suggestions.location-suggestions(role='listbox' hidden)
-          button.swap-btn(type='button' aria-label='Swap locations' data-swap-locations) &udarr;
-          .location-autocomplete
-            label.location-field(for='destination')
-              span.dot.dest
-              input#destination(type='text' value='' placeholder='Enter your destination' autocomplete='off' aria-label='Destination' aria-controls='destination-suggestions' aria-expanded='false')
-            #destination-suggestions.location-suggestions(role='listbox' hidden)
+        p.panel-kicker Book a ride
+        h2 Where to?
+        p.panel-lead Pickup is set to your area. Add a drop-off to see fares and nearby drivers.
+        .route-composer
+          .route-stop
+            span.route-stop__label Pickup
+            .location-autocomplete
+              label.location-field(for='pickup')
+                span.dot
+                input#pickup(type='text' placeholder='Current location' autocomplete='off' aria-label='Pickup location' aria-controls='pickup-suggestions' aria-expanded='false')
+              #pickup-suggestions.location-suggestions(role='listbox' hidden)
+          button.swap-btn(type='button' aria-label='Swap locations' data-swap-locations) ↕
+          .route-stop
+            span.route-stop__label Drop-off
+            .location-autocomplete
+              label.location-field(for='destination')
+                span.dot.dest
+                input#destination(type='text' value='' placeholder='Where are you going?' autocomplete='off' aria-label='Destination' aria-controls='destination-suggestions' aria-expanded='false')
+              #destination-suggestions.location-suggestions(role='listbox' hidden)
       .side-panel__body
-        .ride-options.mt-md
-          button.ride-option.active(type='button' data-ride-type='standard')
-            strong Standard
-            span.ride-option-fare ETB --
-          button.ride-option(type='button' data-ride-type='comfort')
-            strong Comfort
-            span.ride-option-fare ETB --
-          button.ride-option(type='button' data-ride-type='premium')
-            strong Premium
-            span.ride-option-fare ETB --
-        .fare-box
-          .fare-line
-            span Base fare
-            span(data-fare-base) ETB --
-          .fare-line
-            span(data-fare-distance-label) Distance
-            span(data-fare-distance) ETB --
-          .fare-line
-            span(data-fare-time-label) Time
-            span(data-fare-time) ETB --
-          .fare-line
-            span Estimated total
-            span(data-fare-total) ETB --
-        p.text-semibold.mb-sm Nearby drivers
-        #nearby-drivers(aria-live='polite')
-          p.booking-status Enter a destination to see nearby drivers.
+        section.panel-section
+          .panel-section__head
+            h3 Ride
+            p Choose a class. Price updates with your route.
+          .ride-options
+            button.ride-option.active(type='button' data-ride-type='standard')
+              strong Standard
+              span.ride-option-fare ETB --
+            button.ride-option(type='button' data-ride-type='comfort')
+              strong Comfort
+              span.ride-option-fare ETB --
+            button.ride-option(type='button' data-ride-type='premium')
+              strong Premium
+              span.ride-option-fare ETB --
+        section.panel-section
+          .panel-section__head
+            h3 Estimate
+            p Base, distance, and time before you confirm.
+          .fare-box
+            .fare-line
+              span Base fare
+              span(data-fare-base) ETB --
+            .fare-line
+              span(data-fare-distance-label) Distance
+              span(data-fare-distance) ETB --
+            .fare-line
+              span(data-fare-time-label) Time
+              span(data-fare-time) ETB --
+            .fare-line
+              span Estimated total
+              span(data-fare-total) ETB --
+        section.panel-section
+          .panel-section__head
+            h3 Drivers
+            p Three closest cars. The first is selected for you.
+          #nearby-drivers(aria-live='polite')
+            p.booking-status Enter a destination to see nearby drivers.
       .side-panel__foot
-        button.btn.btn-primary.btn-block(type='button' data-confirm-booking disabled) Confirm booking
+        button.btn.btn-primary.btn-block(type='button' data-confirm-booking disabled) Request ride

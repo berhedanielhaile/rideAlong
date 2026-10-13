@@ -12,6 +12,19 @@ const {
   tripTitle,
 } = require('../utils/viewFormat');
 
+const DRIVER_STATUS_COPY = {
+  accepted: 'Head to pickup',
+  arrived: 'Waiting at pickup',
+  picked_up: 'Trip in progress',
+};
+
+const tripPlaces = (trip) => ({
+  pickup: (trip.pickup && trip.pickup.adress) || 'Pickup',
+  dropoff: (trip.dropoff && trip.dropoff.adress) || 'Drop-off',
+  eta: `${Math.max(1, Math.round(((trip.metrics && trip.metrics.duration_seconds) || 0) / 60))} min`,
+  distance: `${Number((trip.metrics && trip.metrics.distance_km) || 0).toFixed(1)} km`,
+});
+
 const COMMISSION_RATE = 0.15;
 
 const requireUser = (req, res) => {
@@ -268,19 +281,24 @@ exports.showDriverDashboard = catchAsync(async (req, res, next) => {
           id: String(activeTrip._id),
           title: tripTitle(activeTrip),
           passenger: (activeTrip.passenger_id && activeTrip.passenger_id.name) || 'Passenger',
+          passengerInitials: initialsFor((activeTrip.passenger_id && activeTrip.passenger_id.name) || 'Passenger'),
           fare: formatMoney(
             activeTrip.payment && activeTrip.payment.fare_breakdown && activeTrip.payment.fare_breakdown.total_fare,
           ),
           status: activeTrip.status,
+          statusLabel: DRIVER_STATUS_COPY[activeTrip.status] || activeTrip.status,
           when: formatTripWhen(activeTrip.createdAt),
+          ...tripPlaces(activeTrip),
         }
       : null,
     requests: requests.map((trip) => ({
       id: String(trip._id),
       title: tripTitle(trip),
       passenger: (trip.passenger_id && trip.passenger_id.name) || 'Passenger',
+      passengerInitials: initialsFor((trip.passenger_id && trip.passenger_id.name) || 'Passenger'),
       fare: formatMoney(trip.payment && trip.payment.fare_breakdown && trip.payment.fare_breakdown.total_fare),
-      distance: `${Number((trip.metrics && trip.metrics.distance_km) || 0).toFixed(1)} km`,
+      when: formatTripWhen(trip.createdAt),
+      ...tripPlaces(trip),
     })),
     vehicle,
   });

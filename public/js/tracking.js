@@ -79,7 +79,7 @@ const readBootData = () => {
 };
 
 export function initTracking(mapController) {
-  const trackingPage = document.querySelector('[data-trip-id]');
+  const trackingPage = document.querySelector('[data-tracking-page]');
   if (!trackingPage) return;
 
   const statusLabel = trackingPage.querySelector('[data-trip-status-label]');

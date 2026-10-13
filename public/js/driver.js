@@ -13,6 +13,26 @@ async function readLocation() {
   });
 }
 
+async function runTripAction(btn, request, successMessage) {
+  const actions = $$('button[data-accept-trip], button[data-decline-trip], button[data-next-status][data-trip-id]');
+  const original = btn.textContent;
+  actions.forEach((action) => {
+    action.disabled = true;
+  });
+  btn.textContent = 'Updating...';
+  try {
+    await axios.patch(request.url, request.body);
+    showAlert('success', successMessage);
+    window.location.reload();
+  } catch (error) {
+    actions.forEach((action) => {
+      action.disabled = false;
+    });
+    btn.textContent = original;
+    showAlert('error', error.response?.data?.message || 'Could not update this trip.');
+  }
+}
+
 export function initDriver() {
   const toggle = $('[data-driver-toggle]');
   if (toggle) {
@@ -36,49 +56,57 @@ export function initDriver() {
     });
   }
 
-  $$('[data-accept-trip]').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      try {
-        await axios.patch(`/api/v1/trip/${btn.dataset.acceptTrip}/accept`);
-        window.location.reload();
-      } catch (error) {
-        showAlert('error', error.response?.data?.message || 'Could not accept trip.');
-      }
-    });
+  $$('button[data-accept-trip]').forEach((btn) => {
+    btn.addEventListener('click', () =>
+      runTripAction(btn, { url: `/api/v1/trip/${btn.dataset.acceptTrip}/accept` }, 'Request accepted.'),
+    );
   });
 
-  $$('[data-decline-trip]').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      try {
-        await axios.patch(`/api/v1/trip/${btn.dataset.declineTrip}/decline`);
-        window.location.reload();
-      } catch (error) {
-        showAlert('error', error.response?.data?.message || 'Could not decline trip.');
-      }
-    });
+  $$('button[data-decline-trip]').forEach((btn) => {
+    btn.addEventListener('click', () =>
+      runTripAction(btn, { url: `/api/v1/trip/${btn.dataset.declineTrip}/decline` }, 'Request declined.'),
+    );
   });
 
-  $$('[data-trip-status]').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      try {
-        await axios.patch(`/api/v1/trip/${btn.dataset.tripId}/status`, { status: btn.dataset.tripStatus });
-        window.location.reload();
-      } catch (error) {
-        showAlert('error', error.response?.data?.message || 'Could not update trip.');
-      }
-    });
+  $$('button[data-next-status][data-trip-id]').forEach((btn) => {
+    btn.addEventListener('click', () =>
+      runTripAction(
+        btn,
+        {
+          url: `/api/v1/trip/${btn.dataset.tripId}/status`,
+          body: { status: btn.dataset.nextStatus },
+        },
+        btn.dataset.nextStatus === 'cancelled' ? 'Trip cancelled.' : 'Trip updated.',
+      ),
+    );
   });
 
   const home = $('[data-driver-home]');
-  if (home?.dataset.userId) {
-    window.setInterval(async () => {
-      try {
-        const { data } = await axios.get(`/api/v1/user/${home.dataset.userId}/requests`);
-        const incoming = home.querySelectorAll('[data-accept-trip]').length;
-        if (data.data.count !== incoming) window.location.reload();
-      } catch (error) {
-        // Keep the driver screen usable if polling fails.
+  if (!home?.dataset.userId) return;
+
+  const requestFingerprint = () =>
+    $$('button[data-accept-trip]', home)
+      .map((btn) => btn.dataset.acceptTrip)
+      .sort()
+      .join(',');
+
+  let lastIds = requestFingerprint();
+  const hasActiveTrip = Boolean(home.querySelector('button[data-next-status][data-trip-id]'));
+
+  window.setInterval(async () => {
+    if (hasActiveTrip) return;
+    try {
+      const { data } = await axios.get(`/api/v1/user/${home.dataset.userId}/requests`);
+      const ids = (data.data.requests || [])
+        .map((trip) => String(trip._id))
+        .sort()
+        .join(',');
+      if (ids !== lastIds) {
+        lastIds = ids;
+        window.location.reload();
       }
-    }, 8000);
-  }
+    } catch (error) {
+      // Keep the driver screen usable if polling fails.
+    }
+  }, 8000);
 }

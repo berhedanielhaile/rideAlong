@@ -6,8 +6,77 @@ block content
         div
           p.page-kicker Driver
           h1 Welcome back, #{firstName}
-          p= activeTrip ? 'You have an active trip right now.' : (requests.length ? 'New ride requests are waiting.' : 'Go online to receive ride requests.')
+          p= activeTrip ? 'You have an active trip right now.' : (requests.length ? 'A new ride request is waiting.' : 'Go online to receive ride requests.')
         span.status-pill(data-online-badge)= statusLabel
+
+      if activeTrip
+        section.job-card
+          .job-card__top
+            div
+              p.ride-alert__live Active trip
+              h2= activeTrip.passenger
+              p.job-card__meta= `${activeTrip.statusLabel} · ${activeTrip.when}`
+            .job-card__fare
+              span Fare
+              strong= activeTrip.fare
+          .ride-route
+            .ride-route__stop
+              span.dot
+              div
+                small Pickup
+                p= activeTrip.pickup
+            .ride-route__stop
+              span.dot.dest
+              div
+                small Drop-off
+                p= activeTrip.dropoff
+          .trip-steps
+            span.trip-step(class=activeTrip.status === 'accepted' ? 'now' : 'done') Accepted
+            span.trip-step(class=activeTrip.status === 'arrived' ? 'now' : (activeTrip.status === 'picked_up' ? 'done' : '')) Arrived
+            span.trip-step(class=activeTrip.status === 'picked_up' ? 'now' : '') On trip
+          .job-card__actions
+            if activeTrip.status === 'accepted'
+              button.btn.btn-primary(type='button' data-next-status='arrived' data-trip-id=activeTrip.id) I've arrived
+            if activeTrip.status === 'arrived'
+              button.btn.btn-primary(type='button' data-next-status='picked_up' data-trip-id=activeTrip.id) Start trip
+            if activeTrip.status === 'picked_up'
+              button.btn.btn-primary(type='button' data-next-status='completed' data-trip-id=activeTrip.id) Complete trip
+            a.btn.btn-secondary(href=`/tracking/${activeTrip.id}`) Open map
+            button.btn.btn-ghost(type='button' data-next-status='cancelled' data-trip-id=activeTrip.id) Cancel trip
+      else if requests.length
+        .ride-alerts
+          each request in requests
+            article.ride-alert
+              .ride-alert__top
+                span.ride-alert__live Incoming request
+                span.ride-alert__when= request.when
+              .ride-alert__hero
+                span.avatar.lg= request.passengerInitials
+                div
+                  h2= request.passenger
+                  p= `${request.distance} · ${request.eta}`
+                .ride-alert__fare
+                  span Fare
+                  strong= request.fare
+              .ride-route
+                .ride-route__stop
+                  span.dot
+                  div
+                    small Pickup
+                    p= request.pickup
+                .ride-route__stop
+                  span.dot.dest
+                  div
+                    small Drop-off
+                    p= request.dropoff
+              .ride-alert__actions
+                button.btn.btn-secondary(type='button' data-decline-trip=request.id) Decline
+                button.btn.btn-primary(type='button' data-accept-trip=request.id) Accept ride
+      else
+        section.ride-empty
+          h3 No requests yet
+          p Stay online near a pickup area. New jobs will land here the moment a rider selects you.
+
       .stats-grid
         article.metric-card
           .label Today's rides
@@ -25,52 +94,16 @@ block content
       .split-2
         section.surface
           .surface-head
-            h3= activeTrip ? 'Active trip' : 'Incoming requests'
-            if activeTrip
-              a(href=`/tracking/${activeTrip.id}`) Open map
-          if activeTrip
-            .list-row
-              div
-                h4= activeTrip.title
-                p= `Passenger: ${activeTrip.passenger} · ${activeTrip.when}`
-              .text-right
-                .money= activeTrip.fare
-                p(data-active-status)= activeTrip.status
-            .header-actions.mt-md
-              if activeTrip.status === 'accepted'
-                button.btn.btn-primary(type='button' data-trip-status='arrived' data-trip-id=activeTrip.id) Mark arrived
-              if activeTrip.status === 'arrived'
-                button.btn.btn-primary(type='button' data-trip-status='picked_up' data-trip-id=activeTrip.id) Start trip
-              if activeTrip.status === 'picked_up'
-                button.btn.btn-primary(type='button' data-trip-status='completed' data-trip-id=activeTrip.id) Complete trip
-              button.btn.btn-secondary(type='button' data-trip-status='cancelled' data-trip-id=activeTrip.id) Cancel
-          else if requests.length
-            each request in requests
-              .list-row
-                div
-                  h4= request.title
-                  p= `${request.passenger} · ${request.distance}`
-                .text-right
-                  .money= request.fare
-              .header-actions
-                button.btn.btn-primary(type='button' data-accept-trip=request.id) Accept
-                button.btn.btn-secondary(type='button' data-decline-trip=request.id) Decline
-          else
-            .empty
-              h3 No requests yet
-              p Stay online near a pickup area to receive jobs.
+            h3 Performance
+          .surface-body
+            .kv
+              span Total trips
+              strong= stats.totalTrips
+            .kv
+              span This week
+              strong= stats.weekEarnings
         aside
           section.surface
-            .surface-head
-              h3 Performance
-            .surface-body
-              .kv
-                span Total trips
-                strong= stats.totalTrips
-              .kv
-                span This week
-                strong= stats.weekEarnings
-          section.surface.mt-lg
             .surface-head
               h3 Active vehicle
             .surface-body

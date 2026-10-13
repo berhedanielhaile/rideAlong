@@ -398,7 +398,7 @@ export function initBooking(mapController) {
         if (error.response?.status === 409) await updatePreview();
         status(message, true);
         confirmButton.disabled = !state.selectedDriverId || !selectedFare();
-        confirmButton.textContent = 'Confirm booking';
+        confirmButton.textContent = 'Request ride';
       }
     });
 

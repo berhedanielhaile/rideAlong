@@ -9,6 +9,21 @@ const { buildRouteEstimate } = require('../utils/buildRouteEstimate');
 const { Metric } = require('../model/metric-model');
 const { getTripStatsForUser } = require('../utils/tripStats');
 
+const idOf = (value) => {
+  if (value == null) return '';
+  if (typeof value === 'object' && value._id) return String(value._id);
+  return String(value);
+};
+
+const STATUS_FLOW = {
+  requested: ['cancelled'],
+  accepted: ['arrived', 'cancelled'],
+  arrived: ['picked_up', 'cancelled'],
+  picked_up: ['completed', 'cancelled'],
+  completed: [],
+  cancelled: [],
+};
+
 exports.getTripPreview = catchAsync(async (req, res, next) => {
   const pickupLat = Number(req.body.pickupLat);
   const pickupLon = Number(req.body.pickupLon);
@@ -304,16 +319,19 @@ exports.acceptTrip = catchAsync(async (req, res, next) => {
   }
 
   // Driver can only accept trips assigned to them
-  if (req.user.id !== trip.driver_id.toString()) {
+  if (idOf(req.user._id || req.user.id) !== idOf(trip.driver_id)) {
     return next(new AppError('You can only accept trips assigned to you', 403));
   }
 
-  trip.status = 'accepted';
-  await trip.save();
+  const acceptedTrip = await Trip.findByIdAndUpdate(
+    trip._id,
+    { $set: { status: 'accepted' } },
+    { new: true, runValidators: false },
+  );
 
   res.status(200).json({
     status: 'success',
-    data: trip,
+    data: acceptedTrip,
   });
 });
 exports.declineTrip = catchAsync(async (req, res, next) => {
@@ -409,72 +427,87 @@ exports.updateTripStatus = catchAsync(async (req, res, next) => {
   const trip = await Trip.findById(req.params.id);
   if (!trip) return next(new AppError('Trip not found', 404));
 
-  // Only driver, passenger, or admin can update trip status
-  if (
-    req.user.role !== 'admin' &&
-    req.user.id !== trip.driver_id.toString() &&
-    req.user.id !== trip.passenger_id.toString()
-  ) {
+  const actorId = idOf(req.user._id || req.user.id);
+  const driverId = idOf(trip.driver_id);
+  const passengerId = idOf(trip.passenger_id);
+  const roles = [].concat(req.user.role || []);
+  const isAdmin = roles.includes('admin');
+  const isDriver = actorId === driverId;
+  const isPassenger = Boolean(passengerId) && actorId === passengerId;
+
+  if (!isAdmin && !isDriver && !isPassenger) {
     return next(new AppError('You can only update status for trips you are involved in', 403));
   }
 
-  trip.status = status;
+  const allowed = STATUS_FLOW[trip.status] || [];
+  if (!allowed.includes(status)) {
+    return next(new AppError(`This trip cannot move from ${trip.status} to ${status}.`, 400));
+  }
+
+  if (status !== 'cancelled' && !isAdmin && !isDriver) {
+    return next(new AppError('Only the assigned driver can update this trip.', 403));
+  }
+
+  const update = { status };
   if (status === 'picked_up') {
-    trip.pickup.timeStamp = new Date();
+    update['pickup.timeStamp'] = new Date();
   }
   if (status === 'completed') {
-    trip.dropoff.timeStamp = new Date();
-    if (!trip.metrics) trip.metrics = {};
+    update['dropoff.timeStamp'] = new Date();
     if (trip.pickup && trip.pickup.timeStamp) {
       const actualSeconds = Math.max(0, Math.round((Date.now() - new Date(trip.pickup.timeStamp).getTime()) / 1000));
-      trip.metrics.actual_duration_seconds = actualSeconds;
-      trip.metrics.duration_seconds = actualSeconds;
+      update['metrics.actual_duration_seconds'] = actualSeconds;
+      update['metrics.duration_seconds'] = actualSeconds;
     }
     if (trip.meter && trip.meter.distance_km != null) {
-      trip.metrics.actual_distance_km = trip.meter.distance_km;
-      trip.metrics.distance_km = trip.meter.distance_km;
-    } else if (trip.metrics.distance_km && !trip.metrics.actual_distance_km) {
-      trip.metrics.actual_distance_km = trip.metrics.distance_km;
+      update['metrics.actual_distance_km'] = trip.meter.distance_km;
+      update['metrics.distance_km'] = trip.meter.distance_km;
+    } else if (trip.metrics && trip.metrics.distance_km && trip.metrics.actual_distance_km == null) {
+      update['metrics.actual_distance_km'] = trip.metrics.distance_km;
     }
-    if (trip.meter && trip.meter.fare != null) {
-      trip.payment.fare_breakdown.meter_fare = trip.meter.fare;
+    if (trip.meter && trip.meter.fare != null && trip.payment && trip.payment.fare_breakdown) {
       const extras = trip.meter.extras || 0;
       const tips = trip.payment.fare_breakdown.tips || 0;
       const tax = trip.payment.fare_breakdown.tax || 0;
-      trip.payment.fare_breakdown.total_fare = Number((trip.meter.fare + extras + tips + tax).toFixed(2));
+      update['payment.fare_breakdown.meter_fare'] = trip.meter.fare;
+      update['payment.fare_breakdown.total_fare'] = Number((trip.meter.fare + extras + tips + tax).toFixed(2));
     }
-    if (trip.payment.payment_method === 'wallet' && trip.passenger_id) {
-      const fare = trip.payment.fare_breakdown.total_fare || 0;
-      await User.findByIdAndUpdate(trip.passenger_id, {
-        $inc: { 'passengerProfile.wallet_balance': -fare },
-        $push: {
-          'passengerProfile.wallet_history': {
-            type: 'ride',
-            amount: -fare,
-            note: `${(trip.pickup && trip.pickup.adress) || 'Pickup'} to ${
-              (trip.dropoff && trip.dropoff.adress) || 'Drop-off'
-            }`,
-            createdAt: new Date(),
-          },
+  }
+  if (req.body.rating != null) {
+    update.ratingsQuantity = req.body.rating;
+  }
+
+  const updatedTrip = await Trip.findByIdAndUpdate(trip._id, { $set: update }, { new: true, runValidators: false });
+
+  if (status === 'completed' && trip.payment && trip.payment.payment_method === 'wallet' && passengerId) {
+    const fare =
+      (updatedTrip.payment && updatedTrip.payment.fare_breakdown && updatedTrip.payment.fare_breakdown.total_fare) || 0;
+    await User.findByIdAndUpdate(passengerId, {
+      $inc: { 'passengerProfile.wallet_balance': -fare },
+      $push: {
+        'passengerProfile.wallet_history': {
+          type: 'ride',
+          amount: -fare,
+          note: `${(trip.pickup && trip.pickup.adress) || 'Pickup'} to ${
+            (trip.dropoff && trip.dropoff.adress) || 'Drop-off'
+          }`,
+          createdAt: new Date(),
         },
-      });
-    }
-    await User.findByIdAndUpdate(trip.driver_id, { $inc: { 'driverProfile.total_trips': 1 } });
+      },
+    });
   }
-  if (req.body.rating) {
-    trip.ratingsQuantity = req.body.rating;
+  if (status === 'completed' && driverId) {
+    await User.findByIdAndUpdate(driverId, { $inc: { 'driverProfile.total_trips': 1 } });
   }
-  if (status === 'completed' || status === 'cancelled') {
-    await User.findByIdAndUpdate(trip.driver_id, {
+  if ((status === 'completed' || status === 'cancelled') && driverId) {
+    await User.findByIdAndUpdate(driverId, {
       'driverProfile.status': 'available',
     });
   }
 
-  await trip.save();
-
   res.status(200).json({
     status: 'success',
-    data: trip,
+    data: updatedTrip,
   });
 });
 exports.getDriverRequests = catchAsync(async (req, res, next) => {

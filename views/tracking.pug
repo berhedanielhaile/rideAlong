@@ -1,6 +1,6 @@
 extends base
 block content
-  main.split-map(data-trip-id=trip._id data-trip-status=trip.status)
+  main.split-map(data-tracking-page data-trip-id=trip._id data-trip-status=trip.status)
     script#trip-boot(type='application/json')!= tripBoot
     section.map-canvas(aria-label='Live route')
       #map(role='application' aria-label='Map showing your trip route and driver')
